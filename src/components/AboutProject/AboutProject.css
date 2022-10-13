@@ -1,9 +1,7 @@
 .about-project {
    display: flex;
    flex-direction: column;
-   justify-content: space-between;
-   height: 550px;
-   padding: 65px 70px;
+   padding: 105px 70px;
 }
 
 .about-project__title {
@@ -11,19 +9,19 @@
    font-size: 22px;
    line-height: 1.3em;
    color: #FFF;
-   padding-bottom: 23px;
-   border-bottom: 1px solid 
-   #DADADA;
+   padding-bottom: 20px;
+   margin-bottom: 52px;
+   border-bottom: 1px solid #DADADA;
 }
 
 .about-project__container {
    display: flex;
    justify-content: center;
-   gap: 30px;
+   gap: 50px;
 }
 
 .about-project__wrapper {
-   width: 100%;
+   margin-bottom: 80px;
 }
 
 .about-project__subtitle {
@@ -41,7 +39,7 @@
 }
 
 .about-project__time {
-display: flex;
+   display: flex;
 }
 
 .about-project__time-info:first-of-type {
@@ -65,7 +63,7 @@ display: flex;
    text-align: center;
    font-weight: 500;
    font-size: 14px;
-   line-height: 1.2em; 
+   line-height: 1.2em;
    color: #8B8B8B;
 }
 

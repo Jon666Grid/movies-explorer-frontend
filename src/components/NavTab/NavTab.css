@@ -1,11 +1,11 @@
 .navtab {
-   margin-top: -100px;
-   margin-bottom: 50px;
+   margin-top: -85px;
 }
 
 .navtab__lists {
-display: flex;
-justify-content: center;
+   display: flex;
+   justify-content: center;
+   padding: 0;
 }
 
 .navtab__list {
@@ -14,6 +14,13 @@ justify-content: center;
    margin-right: 10px;
    border-radius: 10px;
    background-color: #303030;
+   transition: 0.5s;
+}
+
+.navtab__list:hover {
+   box-shadow: 0px 8px 10px 0px rgba(23, 122, 101, 0.2);
+   background-color: #3DDC84;
+   transform: translate(0, -2px);
 }
 
 .navtab__link {

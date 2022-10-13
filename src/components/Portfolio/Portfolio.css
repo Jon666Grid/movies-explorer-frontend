@@ -1,0 +1,40 @@
+.portfolio {
+   padding: 70px 70px;
+}
+
+.portfolio__title {
+   font-weight: 400;
+   font-size: 18px;
+   line-height: 1.2em;
+   color: #8B8B8B;
+   margin-bottom: 32px;
+}
+
+.portfolio__items {
+   list-style: none;
+   padding: 0;
+}
+
+.portfolio__item {
+   padding: 22px 0;
+   outline: none;
+   border: none;
+   border-bottom: 1px solid #424242;
+   background: transparent url('../../images/portfolio_link.svg') right center / 32px no-repeat;
+}
+
+.portfolio__link {
+
+   width: 100%;
+   font-weight: 400;
+   font-size: 30px;
+   line-height: 1.4em;
+   color: #fff;
+   text-decoration: none;
+   transition: .3s;
+}
+
+.portfolio__link:hover {
+   opacity: .5;
+   text-decoration: underline;
+}

@@ -11,9 +11,9 @@ function Main() {
          <Promo />
          <NavTab />
          <AboutProject />
-         {/* <Techs />
+         <Techs />
          <AboutMe />
-         <Portfolio /> */}
+         <Portfolio />
       </main>
    );
 };

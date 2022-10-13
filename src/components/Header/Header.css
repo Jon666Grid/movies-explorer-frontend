@@ -2,20 +2,27 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: 12px 70px;
+   padding: 17px 70px  37px;
 }
-
-.header__logo-link {}
 
 .header__logo {
    width: 38px;
    height: 38px;
 }
 
+.header__logo-link {
+   transition: .3s;
+}
+
+.header__logo-link:hover {
+   transform: scale(1.2);
+}
+
 .header__auth-link {
    display: flex;
    margin: 0 0 0 auto;
 }
+
 .header__auth {
    display: flex;
    justify-content: center;
@@ -27,6 +34,11 @@
    line-height: 1.3em;
    color: #FFF;
    text-decoration: none;
+   transition: .3s;
+}
+
+.header__auth:hover {
+   transform: scale(1.2);
 }
 
 .header__auth_color {
