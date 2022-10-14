@@ -18,7 +18,7 @@
 }
 
 .navtab__list:hover {
-   box-shadow: 0px 8px 10px 0px rgba(23, 122, 101, 0.2);
+   box-shadow: 0px 8px 8px 0px rgba(23, 122, 101, 0.4);
    background-color: #3DDC84;
    transform: translate(0, -2px);
 }

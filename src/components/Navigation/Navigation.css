@@ -12,7 +12,9 @@
 
 .navigation__lists {
    display: flex;
+   margin: 0;
 }
+
 .navigation__list {
    list-style: none;
    margin-right: 16px;
@@ -28,6 +30,12 @@
    color: #FFF;
    line-height: 1.3em;
    text-decoration: none;
+   transition: .8s;
+}
+
+.navigation__link:hover {
+   opacity: .8;
+   text-decoration: underline;
 }
 
 .navigation__profile-link {
@@ -43,7 +51,13 @@
    text-decoration: none;
    background-color: #313131;
    border-radius: 20px;
+   transition: .3s;
 }
+
+.navigation__profile-link:hover {
+   transform: scale(1.2);
+}
+
 .navigation__burger {
    display: none;
    margin: 0;
@@ -52,7 +66,7 @@
    height: 22px;
    outline: none;
    border: none;
-   background: transparent url('../../images/burger.svg') center center / 32px no-repeat;
+   background: transparent url('../../images/burger.svg') center center / 22px no-repeat;
 }
 
 .navigation__close {
@@ -63,10 +77,5 @@
    height: 22px;
    outline: none;
    border: none;
-   background: transparent url('../../images/buttont-close.svg') center center / 32px no-repeat;
+   background: transparent url('../../images/buttont-close.svg') center center / 22px no-repeat;
 }
-
-.navigation_active {
-
-}
-

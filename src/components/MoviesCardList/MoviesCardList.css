@@ -1,0 +1,33 @@
+.movies-cards {
+   padding: 70px;
+}
+
+.movies-cards__list {
+   padding: 0;
+}
+
+.movies-cards__text {
+   text-align: center;
+   font-weight: 500;
+   font-size: 18px;
+   line-height: 1.2em;
+   color: #fff;
+}
+
+.movies-cards__button-container {
+   margin: 0 auto;
+   text-align: center;
+   max-width: 320px;
+   padding: 10px 0;
+   border-radius: 5px;
+   border: 1px solid #424242;
+}
+
+.movies-cards__button {
+   background: transparent;
+   border: none;
+   font-weight: 500;
+   font-size: 12px;
+   line-height: 1.2em;
+   color: #fff;
+}
