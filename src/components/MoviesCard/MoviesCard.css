@@ -6,7 +6,7 @@
 .movies-card__container {
    display: grid;
    grid-template-areas:
-      "title heart"
+      "title action"
       "duration duration";
    padding: 15px;
 }
@@ -29,7 +29,7 @@
    font-size: 13px;
    line-height: 1.2em;
    color: #fff;
-   margin: 0;
+   margin: 0 0 18px 0;
 }
 
 .movies-card__duration {
@@ -43,7 +43,7 @@
 
 .movies-card__like {
    justify-self: end;
-   grid-area: heart;
+   grid-area: action;
    width: 20px;
    height: 20px;
    padding: 0;
@@ -58,5 +58,21 @@
 }
 
 .movies-card__like:hover {
-   transform: scale(1.3);
+   transform: scale(1.15);
+}
+
+.movies-card__delete {
+   justify-self: end;
+   grid-area: action;
+   width: 18px;
+   height: 18px;
+   padding: 0;
+   border: none;
+   background: transparent url('../../images/film_delete.svg') center center/ 14px no-repeat;
+   transition: .4s;
+   cursor: pointer;
+}
+
+.movies-card__delete:hover {
+   transform: scale(1.15);
 }

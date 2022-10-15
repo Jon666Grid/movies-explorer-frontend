@@ -7,9 +7,9 @@ function MoviesCardList() {
          <ul className='movies-cards__list'>
             {true ? <MoviesCard /> : <div className='movies-cards__text'>Ничего не найдено</div>}
          </ul>
-         <div className='movies-cards__button-container'>
+         {<div className='movies-cards__button-container'>
             <button className='movies-cards__button' type='button'>Еще</button>
-         </div>
+         </div>}
       </section>
    );
 }

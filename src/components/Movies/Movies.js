@@ -1,3 +1,4 @@
+import './Movies.css';
 import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";

@@ -15,7 +15,7 @@
 }
 
 .header__logo-link:hover {
-   transform: scale(1.2);
+   transform: scale(1.1);
 }
 
 .header__auth-link {
@@ -38,7 +38,7 @@
 }
 
 .header__auth:hover {
-   transform: scale(1.2);
+   opacity: .7;
 }
 
 .header__auth_color {

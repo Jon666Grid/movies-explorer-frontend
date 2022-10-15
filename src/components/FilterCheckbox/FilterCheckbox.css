@@ -1,5 +1,5 @@
 .filter-checkbox {
-   padding: 0 70px;
+   margin-bottom: 80px;
 }
 
 .filter-checkbox__container {
@@ -7,14 +7,14 @@
    justify-content: center;
    caret-color: transparent;
    border-bottom: 1px solid #424242;
-   padding: 20px 0;
+   padding: 24px 0;
    gap: 10px;
 }
 
 .filter-checkbox_switch {
    display: inline-block;
-   width: 54px;
-   height: 24px;
+   width: 50px;
+   height: 20px;
    transform: translateY(50%);
    position: relative;
 }
@@ -32,7 +32,7 @@
    border-radius: 30px;
    box-shadow: 0 0 0 2px #777, 0 0 4px #777;
    cursor: pointer;
-   border: 4px solid transparent;
+   border: 2px solid transparent;
    overflow: hidden;
    transition: 0.4s;
 }
@@ -59,7 +59,6 @@ input:checked+.filter-checkbox__slider {
 }
 
 .filter-checkbox__text {
-   padding: 5px;
    font-weight: 400;
    font-size: 12px;
    line-height: 1.2em;

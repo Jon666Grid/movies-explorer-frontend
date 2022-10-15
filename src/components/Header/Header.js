@@ -10,7 +10,7 @@ function Header() {
          <Link to='/' className='header__logo-link'>
             <img className='header__logo' src={logo} alt='лого' />
          </Link>
-         {true ? <Navigation /> :
+         {!true ? <Navigation /> :
          <div className='header__auth-link'>
             <Link to='/signup' className='header__auth'>Регистрация</Link>
             <Link to='/signin' className='header__auth header__auth_color'>Войти</Link>
