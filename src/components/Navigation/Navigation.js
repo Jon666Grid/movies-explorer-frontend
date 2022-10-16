@@ -17,7 +17,7 @@ function Navigation() {
                   <NavLink to='/saved-movies' className='navigation__link' activeClassName='navigation__link_active'>Сохранённые фильмы</NavLink>
                </li>
             </ul>
-            <Link to='/' className='navigation__profile-link'>Аккаунт</Link>
+            <Link to='/profile' className='navigation__profile-link'>Аккаунт</Link>
          </div>
          <button className='navigation__burger navigation_active' type="button" />
          <button className='navigation__close navigation_active' type="button" />

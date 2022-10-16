@@ -11,6 +11,7 @@
 }
 
 .header__logo-link {
+   display: inline-block;
    transition: .3s;
 }
 
