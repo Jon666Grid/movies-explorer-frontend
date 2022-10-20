@@ -10,7 +10,7 @@ function Navigation() {
             {true ? 
             <div className='navigation__sidebar'>
                <ul className='navigation__lists'>
-                  <li className='navigation__list navigation__list_no-active'>
+                  <li className='navigation__list !navigation__list_no-active'>
                      <Link to='/' className='navigation__link'>Главная</Link>
                   </li>
                   <li className='navigation__list'>
