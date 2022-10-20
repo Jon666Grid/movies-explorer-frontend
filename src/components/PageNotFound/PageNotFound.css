@@ -3,12 +3,13 @@
    top: 246px;
    text-align: center;
 }
+
 .not-found__title {
-font-weight: 400;
-font-size: 140px;
-line-height: 1.2em;
-color: #fff;
-margin: 0;
+   font-weight: 400;
+   font-size: 140px;
+   line-height: 1.2em;
+   color: #fff;
+   margin: 0;
 }
 
 .not-found__text {
@@ -25,10 +26,35 @@ margin: 0;
    line-height: 1.2em;
    color: #4285F4;
    text-decoration: none;
-transition: .3s;
+   transition: .3s;
 }
 
 .not-found__link:hover {
    opacity: .8;
    text-decoration: underline;
+}
+
+@media all and (max-width: 900px) {
+   .not-found {
+      top: 408px;
+   }
+}
+
+@media all and (max-width: 480px) {
+   .not-found {
+      top: 330px;
+   }
+
+   .not-found__title {
+      font-size: 80px;
+   }
+
+   .not-found__text {
+      font-size: 12px;
+   }
+
+   .not-found__text {
+      margin: 12px 0 280px;
+   }
+
 }

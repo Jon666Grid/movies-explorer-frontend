@@ -1,3 +1,15 @@
 .movies {
    padding: 60px 70px;
 }
+
+@media all and (max-width: 900px) {
+   .movies {
+      padding: 60px 30px 80px;
+   }
+}
+
+@media all and (max-width: 480px) {
+   .movies {
+      padding: 58px 14px 100px;
+   }
+}

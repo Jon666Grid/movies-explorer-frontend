@@ -1,19 +1,18 @@
 import './NavTab.css';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 function NavTab() {
    return (
       <nav className='navtab'>
          <ul className='navtab__lists'>
             <li className='navtab__list'>
-               <Link className='navtab__link' to='#about-project'>О проекте</Link>
+               <a className='navtab__link' href='#about-project'>О проекте</a>
             </li>
             <li className='navtab__list'>
-               <Link className='navtab__link' to='#techs'>Технологии</Link>
+               <a className='navtab__link' href='#techs'>Технологии</a>
             </li>
             <li className='navtab__list'>
-               <Link className='navtab__link'to='#about-me'>Студент</Link>
+               <a className='navtab__link' href='#about-me'>Студент</a>
             </li>
          </ul>
       </nav>

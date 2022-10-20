@@ -1,13 +1,11 @@
 .navigation {
-   display: flex;
    width: 100%;
 }
 
-.navigation__container {
+.navigation__sidebar {
    display: flex;
-   width: 100%;
-   justify-content: space-between;
    align-items: center;
+   justify-content: space-between;
 }
 
 .navigation__lists {
@@ -20,7 +18,7 @@
    margin-right: 16px;
 }
 
-.navigation__list:nth-child(1) {
+.navigation__list_no-active {
    display: none;
 }
 
@@ -62,22 +60,79 @@
 
 .navigation__burger {
    display: none;
+   float: right;
    margin: 0;
    padding: 0;
-   width: 22px;
-   height: 22px;
+   width: 44px;
+   height: 44px;
    outline: none;
    border: none;
-   background: transparent url('../../images/burger.svg') center center / 22px no-repeat;
+   cursor: pointer;
+   background: transparent url('../../images/burger.svg') center center / 44px no-repeat;
+   transition: .3s;
+}
+
+.navigation__burger:active {
+   opacity: .8;
+   transform: scale(0.95);
 }
 
 .navigation__close {
+   position: absolute;
+   top: 18px;
+   right: 20px;
    display: none;
    margin: 0;
    padding: 0;
-   width: 22px;
-   height: 22px;
+   width: 44px;
+   height: 44px;
    outline: none;
    border: none;
-   background: transparent url('../../images/buttont-close.svg') center center / 22px no-repeat;
+   cursor: pointer;
+   background: transparent url('../../images/buttont-close.svg') center center / 40px no-repeat;
+   transition: .3s;
+}
+
+.navigation__close:active {
+   opacity: .8;
+   transform: scale(0.95);
+}
+
+.navigation_active {
+   display: flex;
+}
+
+@media all and (max-width: 900px) {
+   .navigation__container {
+      position: fixed;
+      max-width: 520px;
+      width: 100%;
+      top: 0;
+      right: 0;
+      background-color: #202020;
+      z-index: 2;
+   }
+
+   .navigation__sidebar {
+      height: 100vh;
+      flex-direction: column;
+      justify-content: space-around;
+   }
+
+   .navigation__lists {
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      gap: 20px;
+   }
+
+   .navigation__link {
+      font-size: 18px;
+   }
+}
+
+@media all and (max-width: 520px) {
+      .navigation__container {
+         max-width: 320px;
+      }
 }

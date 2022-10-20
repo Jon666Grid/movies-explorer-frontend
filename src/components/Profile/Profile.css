@@ -6,7 +6,6 @@
    display: flex;
    flex-direction: column;
    align-items: center;
-
 }
 
 .profile__title {
@@ -30,7 +29,7 @@
 }
 
 .profile__wrapper:last-of-type {
-   margin-bottom: 195px;
+   margin-bottom: 190px;
 }
 
 .profile__text {
@@ -72,4 +71,33 @@
    color: #EE3465;
    cursor: pointer;
    padding: 5px;
+}
+
+@media all and (max-width: 900px) {
+   .profile {
+      margin-top: 160px;
+   }
+
+   .profile__title {
+      margin-bottom: 72px;
+   }
+}
+
+@media all and (max-width: 480px) {
+   .profile {
+      margin: 0;
+   }
+
+   .profile__title {
+      margin-bottom: 50px;
+   }
+
+   .profile__wrapper {
+      max-width: 260px;
+   }
+
+   .profile__wrapper:last-of-type {
+      margin-bottom: 352px;
+   }
+   
 }

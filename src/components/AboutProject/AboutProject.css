@@ -71,3 +71,63 @@
    color: #fff;
    background-color: #303030;
 }
+
+@media all and (max-width: 900px) {
+   .about-project {
+      padding: 85px 50px;
+   }
+
+   .about-project__wrapper {
+      margin-bottom: 50px;
+   }
+}
+
+.about-project__time-title_color {
+   color: #fff;
+   background-color: #303030;
+}
+
+@media all and (max-width: 480px) {
+   .about-project {
+      padding: 56px 18px;
+   }
+
+   .about-project__title {
+      font-size: 18px;
+      padding-bottom: 28px;
+      margin-bottom: 40px;
+   }
+
+   .about-project__wrapper {
+      margin-bottom: 25px;
+   }
+
+   .about-project__container {
+      flex-direction: column;
+      gap: 0;
+   }
+
+   .about-project__subtitle {
+      font-size: 18px;
+   }
+
+   .about-project__text {
+      font-size: 11px;
+   }
+
+   .about-project__time-title {
+      font-size: 11px;
+   }
+
+   .about-project__time-subtitle {
+      font-size: 11px;
+   }
+
+   .about-project__time-info:first-of-type {
+      width: 35%;
+   }
+
+   .about-project__time-info:last-of-type {
+      width: 65%;
+   }
+}

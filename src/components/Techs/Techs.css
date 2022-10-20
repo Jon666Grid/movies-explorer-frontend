@@ -39,6 +39,7 @@
 
 .techs__items {
    display: flex;
+   flex-wrap: wrap;
    list-style: none;
    padding: 0;
    gap: 10px;
@@ -54,4 +55,51 @@
    border-radius: 10px;
    height: 60px;
    width: 90px;
+}
+
+@media all and (max-width: 900px) {
+   .techs {
+      padding: 60px 50px;
+   }
+
+   .techs__title {
+      margin-bottom: 78px;
+   }
+
+   .techs__text {
+      margin-bottom: 75px;
+   }
+
+   .techs__item {
+      height: 57px;
+      width: 84px;
+   }
+}
+
+@media all and (max-width: 480px) {
+   .techs {
+      padding: 62px 18px;
+   }
+
+   .techs__title {
+      padding-bottom: 26px;
+      margin-bottom: 60px;
+      font-size: 18px;
+   }
+
+   .techs__subtitle {
+      font-size: 30px;
+   }
+
+   .techs__text {
+      font-size: 11px;
+   }
+
+   .techs__items {
+      padding: 0 53px;
+   }
+
+   .techs__text {
+      margin-bottom: 50px;
+   }
 }
