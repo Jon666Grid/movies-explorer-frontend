@@ -12,15 +12,33 @@ import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
+
   return (
     <div className='app'>
-      <Header />
-      <Main />
-      <Footer />
-      <Movies />
-      <SavedMovies />
       <Routes>
-        < Route path='/profile' element={<Profile />} />
+        <Route path='/' element={
+          <>
+            <Header />
+            <Main />
+            <Footer />
+          </>}
+        />
+        <Route path='/movies' element={
+          <>
+            <Header
+              navigation={() => true} />
+            <Movies />
+            <Footer />
+          </>}
+        />
+        <Route path='/saved-movies' element={
+          <>
+            <Header navigation={() => true} />
+            <SavedMovies />
+            <Footer />
+          </>
+        } />
+        <Route path='/profile' element={<Profile />} />
         <Route path='/signup' element={<Register />} />
         <Route path='/signin' element={<Login />} />
         <Route path='*' element={<PageNotFound />} />
