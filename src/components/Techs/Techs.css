@@ -65,7 +65,6 @@
 
    .techs__title {
       margin-bottom: 78px;
-      border-bottom: 1px solid #000;
    }
 
    .techs__text {
@@ -85,6 +84,7 @@
    }
 
    .techs__title {
+      border-bottom: 1px solid #000;
       padding-bottom: 26px;
       margin-bottom: 60px;
       font-size: 18px;
