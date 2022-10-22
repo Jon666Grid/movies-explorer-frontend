@@ -1,5 +1,9 @@
 .promo {
-   max-width: 1200px;
+   padding: 0 40px;
+}
+
+.promo__wrapper {
+   width: 100%;
    height: 493px;
    border-radius: 10px;
    background-color: #272727;
@@ -21,7 +25,10 @@
 
 @media all and (max-width: 900px) {
    .promo {
-      max-width: 728px;
+      padding: 0 20px;
+   }
+
+   .promo__wrapper {
       height: 834px;
    }
 
@@ -42,7 +49,10 @@
 
 @media all and (max-width: 480px) {
    .promo {
-      max-width: 292px;
+      padding: 0 14px;
+   }
+
+   .promo__wrapper {
       height: 586px;
    }
 

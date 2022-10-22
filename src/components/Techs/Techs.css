@@ -1,6 +1,7 @@
 .techs {
    display: flex;
    flex-direction: column;
+   background-color: #272727;
    padding: 70px 70px;
 }
 
@@ -64,6 +65,7 @@
 
    .techs__title {
       margin-bottom: 78px;
+      border-bottom: 1px solid #000;
    }
 
    .techs__text {
@@ -79,6 +81,7 @@
 @media all and (max-width: 480px) {
    .techs {
       padding: 62px 18px;
+      background-color: transparent;
    }
 
    .techs__title {

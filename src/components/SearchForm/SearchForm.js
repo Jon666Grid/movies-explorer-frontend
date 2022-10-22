@@ -2,18 +2,19 @@ import './SearchForm.css';
 
 function SearchForm() {
    return (
-      <section className="search-form">
+      <form className="search-form">
          <div className="search-form__content">
             <input className="search-form__input"
                autoFocus
                autoComplete="off"
                type="text"
                placeholder="Фильм"
+               required
             />
-            <button className='search-form__button'type="button" />
+            <button className='search-form__button' type='submit' />
          </div>
-         </section>
-         );
+      </form>
+   );
 }
 
-         export default SearchForm;
+export default SearchForm;

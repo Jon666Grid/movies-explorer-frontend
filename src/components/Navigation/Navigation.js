@@ -1,16 +1,18 @@
-import React from 'react';
+import {useState} from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Navigation.css';
 
 function Navigation() {
+
+   const [open, setOpen] = useState(false);
+
    return (
       <nav className='navigation'>
-         <div className='navigation__container'>
-         <button className='navigation__close !navigation_active' type="button" />
-            {true ? 
+            {open ? 
             <div className='navigation__sidebar'>
+               <button className='navigation__close navigation__active' onClick={() => setOpen(false)} type="button" />
                <ul className='navigation__lists'>
-                  <li className='navigation__list navigation__list_no-active'>
+                  <li className='navigation__list navigation__list_hidden navigation__active'>
                      <Link to='/' className='navigation__link'>Главная</Link>
                   </li>
                   <li className='navigation__list'>
@@ -22,8 +24,7 @@ function Navigation() {
                </ul>
                <Link to='/profile' className='navigation__profile-link'>Аккаунт</Link>
                </div>
-               : <button className='navigation__burger navigation_active' type="button" />}
-         </div>
+               : <button className='navigation__burger navigation__active' onClick={() => setOpen(true)} type="button" />}
       </nav>
    );
 }

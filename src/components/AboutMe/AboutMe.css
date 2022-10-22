@@ -43,6 +43,7 @@
    line-height: 1.4em;
    color: #FFF;
    margin-bottom: 100px;
+   margin-right: 15px;
 }
 
 .about-me__links {
@@ -115,6 +116,7 @@
    }
 
    .about-me__image {
+      margin: 0 auto;
       max-width: 292px;
       max-height: 352px;
       margin-bottom: 40px;
