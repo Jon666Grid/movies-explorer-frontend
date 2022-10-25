@@ -1,0 +1,133 @@
+.about-project {
+   display: flex;
+   flex-direction: column;
+   padding: 105px 70px;
+}
+
+.about-project__title {
+   font-weight: 400;
+   font-size: 22px;
+   line-height: 1.3em;
+   color: #FFF;
+   padding-bottom: 20px;
+   margin-bottom: 52px;
+   border-bottom: 1px solid #DADADA;
+}
+
+.about-project__container {
+   display: flex;
+   justify-content: center;
+   gap: 50px;
+}
+
+.about-project__wrapper {
+   margin-bottom: 80px;
+}
+
+.about-project__subtitle {
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 1.3em;
+   color: #FFF;
+}
+
+.about-project__text {
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 1.4em;
+   color: #FFF;
+}
+
+.about-project__time {
+   display: flex;
+}
+
+.about-project__time-info:first-of-type {
+   width: 20%;
+}
+
+.about-project__time-info:last-of-type {
+   width: 80%;
+}
+
+.about-project__time-title {
+   padding: 10px 0;
+   text-align: center;
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 1.2em;
+   background-color: #3DDC84;
+}
+
+.about-project__time-subtitle {
+   text-align: center;
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 1.2em;
+   color: #8B8B8B;
+}
+
+.about-project__time-title_color {
+   color: #fff;
+   background-color: #303030;
+}
+
+@media all and (max-width: 900px) {
+   .about-project {
+      padding: 85px 50px;
+   }
+
+   .about-project__wrapper {
+      margin-bottom: 50px;
+   }
+}
+
+.about-project__time-title_color {
+   color: #fff;
+   background-color: #303030;
+}
+
+@media all and (max-width: 480px) {
+   .about-project {
+      padding: 56px 18px;
+   }
+
+   .about-project__title {
+      font-size: 18px;
+      padding-bottom: 28px;
+      margin-bottom: 40px;
+   }
+
+   .about-project__wrapper {
+      margin-bottom: 25px;
+   }
+
+   .about-project__container {
+      flex-direction: column;
+      gap: 0;
+   }
+
+   .about-project__subtitle {
+      font-size: 18px;
+   }
+
+   .about-project__text {
+      font-size: 11px;
+   }
+
+   .about-project__time-title {
+      font-size: 11px;
+   }
+
+   .about-project__time-subtitle {
+      font-size: 11px;
+   }
+
+   .about-project__time-info:first-of-type {
+      width: 35%;
+   }
+
+   .about-project__time-info:last-of-type {
+      width: 65%;
+   }
+}

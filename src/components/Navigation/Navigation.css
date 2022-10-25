@@ -1,0 +1,139 @@
+.navigation {
+   width: 100%;
+}
+
+.navigation__sidebar {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.navigation__lists {
+   display: flex;
+   margin: 0;
+}
+
+.navigation__list {
+   list-style: none;
+   margin-right: 16px;
+}
+
+.navigation__list_hidden {
+   display: none;
+}
+
+.navigation__link {
+   font-weight: 400;
+   font-size: 13px;
+   color: #FFF;
+   line-height: 1.3em;
+   text-decoration: none;
+   transition: .3s;
+}
+
+.navigation__link:hover {
+   opacity: .7;
+   text-decoration: underline;
+}
+
+.navigation__profile-link {
+   display: flex;
+   height: 32px;
+   width: 100px;
+   justify-content: center;
+   align-items: center;
+   font-weight: 500;
+   font-size: 14px;
+   color: #FFF;
+   line-height: 1.3em;
+   text-decoration: none;
+   background-color: #313131;
+   border-radius: 20px;
+   transition: .3s;
+}
+
+.navigation__profile-link:hover {
+   box-shadow: 0px 8px 8px 0px rgba(23, 122, 101, 0.4);
+   background-color: #3DDC84;
+   transform: translate(0, -2px);
+}
+
+.navigation__close {
+   display: none;
+   position: absolute;
+   top: 18px;
+   right: 20px;
+   margin: 0;
+   padding: 0;
+   width: 44px;
+   height: 44px;
+   outline: none;
+   border: none;
+   cursor: pointer;
+   background: transparent url('../../images/buttont-close.svg') center center / 40px no-repeat;
+   transition: .3s;
+}
+
+.navigation__close:active {
+   opacity: .8;
+   transform: scale(0.95);
+}
+
+.navigation__burger {
+   display: none;
+   float: right;
+   margin: 0;
+   padding: 0;
+   width: 44px;
+   height: 44px;
+   outline: none;
+   border: none;
+   cursor: pointer;
+   background: transparent url('../../images/burger.svg') center center / 44px no-repeat;
+   transition: .3s;
+}
+
+.navigation__burger:active {
+   opacity: .8;
+   transform: scale(0.95);
+}
+
+.navigation_active {
+   display: block;
+}
+
+@media all and (max-width: 900px) {
+   .navigation__sidebar {
+      position: fixed;
+      flex-direction: column;
+      justify-content: space-around;
+      max-width: 520px;
+      width: 100%;
+      height: 100vh;
+      top: 0;
+      right: 0;
+      background-color: #202020;
+      z-index: 2;
+   }
+
+   .navigation__lists {
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      gap: 20px;
+   }
+
+   .navigation__link {
+      font-size: 18px;
+   }
+
+   .navigation__active {
+      display: block;
+   }
+}
+
+@media all and (max-width: 520px) {
+      .navigation__container {
+         max-width: 320px;
+      }
+}
