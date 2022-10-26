@@ -10,8 +10,11 @@ function SearchForm() {
                type="text"
                placeholder="Фильм"
                required
+               onInvalid={e => e.target.setCustomValidity('Нужно ввести ключевое слово')}
             />
-            <button className='search-form__button' type='submit' />
+            <button className='search-form__button' 
+            type='submit'
+            />
          </div>
       </form>
    );
