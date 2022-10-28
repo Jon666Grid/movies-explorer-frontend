@@ -11,35 +11,41 @@ function Movies() {
    const [movies, setMovies] = useState([])
    const [preloader, setPreloader] = useState(false)
    const [searchFilter, setSearchFilter] = useState('')
+   const [errorInfo, setErrorInfo] = useState(false);
 
    const handleClick = () => {
       setPreloader(true);
       setMovies([])
       moviesApi()
          .then(res => {
-            setMovies(res)
-            setPreloader(false)
+            setMovies(res);
+            setPreloader(false);
+            setErrorInfo(false);
          })
-         .catch(err => console.log(err));
+         .catch(err => {
+            console.log(err)
+            setPreloader(false);
+            setErrorInfo(true);
+         })
    }
-
-   console.log(movies)
 
    const filteredMovies = movies.filter(n => {
       const movieRu = String(n.nameRU).toLowerCase().trim();
       const movieEn = String(n.nameEN).toLowerCase().trim();
-      return movieRu.includes(searchFilter.toLowerCase()) || movieEn.includes(searchFilter.toLowerCase())});
+      return movieRu.includes(searchFilter.toLowerCase()) || movieEn.includes(searchFilter.toLowerCase())
+   });
 
    return (
       <div className='movies'>
-         <SearchForm 
-         searchMovies={setSearchFilter}
-         apiClick={handleClick}
+         <SearchForm
+            searchMovies={setSearchFilter}
+            apiClick={handleClick}
          />
          <FilterCheckbox />
-         {preloader && <Preloader />} 
-         {!preloader && movies.length > 0 && <MoviesCardList 
-         movies={filteredMovies}
+         {preloader && <Preloader />}
+         {!preloader && (movies.length > 0 || errorInfo) && <MoviesCardList
+            movies={filteredMovies}
+            errorInfo={errorInfo}
          />}
       </div>
    );
