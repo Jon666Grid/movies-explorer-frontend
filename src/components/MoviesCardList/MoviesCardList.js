@@ -20,7 +20,8 @@ function MoviesCardList(props) {
             <div className='movies-cards__text'>{message}</div>}
 
          {<div className='movies-cards__button-container'>
-            <button className='movies-cards__button' type='button'>Еще</button>
+            <button className='movies-cards__button' type='button'
+            >Еще</button>
          </div>}
       </section>
    );

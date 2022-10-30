@@ -1,5 +1,5 @@
 import './Movies.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import Preloader from '../Preloader/Preloader';
@@ -8,14 +8,15 @@ import { moviesApi } from '../../utils/MoviesApi.js';
 
 function Movies() {
 
-   const [movies, setMovies] = useState([])
-   const [preloader, setPreloader] = useState(false)
-   const [searchFilter, setSearchFilter] = useState('')
+   const [movies, setMovies] = useState([]);
+   const [searchFilter, setSearchFilter] = useState('');
+   const [preloader, setPreloader] = useState(false);
    const [errorInfo, setErrorInfo] = useState(false);
+   const [checkout, setCheckout] = useState(false);
 
    const handleClick = () => {
       setPreloader(true);
-      setMovies([])
+      setMovies([]);
       moviesApi()
          .then(res => {
             setMovies(res);
@@ -32,8 +33,16 @@ function Movies() {
    const filteredMovies = movies.filter(n => {
       const movieRu = String(n.nameRU).toLowerCase().trim();
       const movieEn = String(n.nameEN).toLowerCase().trim();
-      return movieRu.includes(searchFilter.toLowerCase()) || movieEn.includes(searchFilter.toLowerCase())
+      return movieRu.includes(searchFilter.toLowerCase()) || movieEn.includes(searchFilter.toLowerCase());
    });
+
+   const localMovies = () => {
+      if (movies.length > 0 ) {
+         localStorage.setItem('itemMovies', JSON.stringify(filteredMovies))}
+   }
+   localMovies();
+   
+   const itemMovies = JSON.parse(localStorage.getItem('itemMovies'));
 
    return (
       <div className='movies'>
@@ -41,13 +50,15 @@ function Movies() {
             searchMovies={setSearchFilter}
             apiClick={handleClick}
          />
-         <FilterCheckbox />
+         <FilterCheckbox 
+         checkout={setCheckout}/>
          {preloader && <Preloader />}
-         {!preloader && (movies.length > 0 || errorInfo) && <MoviesCardList
-            movies={filteredMovies}
+         {!preloader && !errorInfo && <MoviesCardList
+            movies={itemMovies}
             errorInfo={errorInfo}
          />}
       </div>
+      
    );
 }
 

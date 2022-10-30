@@ -34,6 +34,11 @@
    border-radius: 8px;
 }
 
+.search-form__button:active {
+   opacity: .8;
+   transform: scale(0.95);
+}
+
 @media all and (max-width: 480px) {
    .search-form__input {
       padding: 14px 14px;
@@ -46,7 +51,7 @@
    font-size: 10px;
    line-height: 1.2em;
    color: #EE3465;
-   margin: 7px 0
+   margin: 7px 0;
 }
 
 .search-form_active {

@@ -3,8 +3,6 @@ import { getTimeFromMins } from '../../utils/Utils.js'
 
 function MoviesCard(props) {
 
-   
-
    return (
       <li className='movies-card'>
          <a className='movies-card__link' href='/' target='blank' rel='noreferrer'>
