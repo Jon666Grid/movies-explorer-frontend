@@ -3,18 +3,26 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList(props) {
-   
+
    const getSize = useCallback(() => window.innerWidth, []);
    const [size, setSize] = useState(getSize())
    const [moviesCount, setMoviesCount] = useState([]);
    const onAddMore = props.movies ? props.movies.length : 0;
-   
 
    useEffect(() => {
       const hanleResize = () => {
          setSize(getSize)
       };
-      setTimeout(() => window.addEventListener('resize', hanleResize), 1000);
+      window.addEventListener('resize', resizeThrottler, false)
+      let resizeTimeout;
+      function resizeThrottler() {
+         if (!resizeTimeout) {
+            resizeTimeout = setTimeout(() => {
+               resizeTimeout = null;
+               hanleResize();
+            }, 1000);
+         }
+      }
       return () => {
          window.removeEventListener('resize', hanleResize)
       };
