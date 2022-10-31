@@ -1,5 +1,5 @@
 import './Movies.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import Preloader from '../Preloader/Preloader';
@@ -36,13 +36,11 @@ function Movies() {
       return movieRu.includes(searchFilter.toLowerCase()) || movieEn.includes(searchFilter.toLowerCase());
    });
 
-   const localMovies = () => {
-      if (movies.length > 0 ) {
+   const itemMovies = () => {
+      if (movies.length > 0) {
          localStorage.setItem('itemMovies', JSON.stringify(filteredMovies))}
-   }
-   localMovies();
-   
-   const itemMovies = JSON.parse(localStorage.getItem('itemMovies'));
+         return JSON.parse(localStorage.getItem('itemMovies'));
+      }
 
    return (
       <div className='movies'>
@@ -50,15 +48,15 @@ function Movies() {
             searchMovies={setSearchFilter}
             apiClick={handleClick}
          />
-         <FilterCheckbox 
-         checkout={setCheckout}/>
+         <FilterCheckbox
+            checkout={setCheckout} />
          {preloader && <Preloader />}
          {!preloader && !errorInfo && <MoviesCardList
-            movies={itemMovies}
+            movies={itemMovies()}
             errorInfo={errorInfo}
          />}
       </div>
-      
+
    );
 }
 
