@@ -3,11 +3,12 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList(props) {
-
-   const [size, setSize] = useState([])
+   
+   const getSize = useCallback(() => window.innerWidth, []);
+   const [size, setSize] = useState(getSize())
    const [moviesCount, setMoviesCount] = useState([]);
    const onAddMore = props.movies ? props.movies.length : 0;
-   const getSize = useCallback(() => window.innerWidth, []);
+   
 
    useEffect(() => {
       const hanleResize = () => {
@@ -17,7 +18,7 @@ function MoviesCardList(props) {
       return () => {
          window.removeEventListener('resize', hanleResize)
       };
-   }, [ getSize])
+   }, [getSize])
 
    useEffect(() => {
       if (size >= 1280) {
