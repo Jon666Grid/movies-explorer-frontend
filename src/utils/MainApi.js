@@ -1,7 +1,7 @@
-const BASE_URL = 'https://api.movie.nomoredomains.icu';
+const BASE_URL = 'http://localhost:3000';
 
 const checkResponse = (response) => {
-   return response.ok ? response.json() : Promise.reject(new Error(`Ошибка ${response.status} : ${response.statusText}`));
+   return response.ok ? response.json() : Promise.reject((`Ошибка ${response.status} : ${response.statusText}`));
 };
 
 const headers = {
@@ -16,6 +16,7 @@ export const register = ({ email, password, name }) => {
       body: JSON.stringify({ email, password, name })
    })
       .then(res => checkResponse(res));
+      
 };
 
 export const login = ({ email, password }) => {
@@ -25,6 +26,7 @@ export const login = ({ email, password }) => {
       body: JSON.stringify({ email, password })
    })
       .then(res => checkResponse(res));
+      
 };
 
 export const getUserInfo = (token) => {

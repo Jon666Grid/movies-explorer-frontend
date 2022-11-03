@@ -6,7 +6,7 @@ function MoviesCardList(props) {
 
    const getSize = useCallback(() => window.innerWidth, []);
    const [size, setSize] = useState(getSize())
-   const [moviesCount, setMoviesCount] = useState([]);
+   const [moviesCount, setMoviesCount] = useState(props.movies);
    const onAddMore = props.movies ? props.movies.length : 0;
 
    useEffect(() => {
@@ -48,7 +48,7 @@ function MoviesCardList(props) {
 
    return (
       <section className='movies-cards'>
-         {props.movies.length > 0 ?
+         {!props.messages || props.movies.length > 0 ?
             <ul className='movies-cards__list'>
                {moviesCount.map((item) => (
                   <MoviesCard
@@ -64,7 +64,7 @@ function MoviesCardList(props) {
             <button className='movies-cards__button'
                type='button'
                onClick={handleAddMore}
-            >Еще{size}</button>
+            >Еще</button>
          </div>}
       </section>
    );

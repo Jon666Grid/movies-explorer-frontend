@@ -5,6 +5,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import { moviesApi } from '../../utils/MoviesApi.js';
+import { useLocation } from 'react-router-dom';
 
 function Movies() {
 
@@ -12,7 +13,9 @@ function Movies() {
    const [searchFilter, setSearchFilter] = useState('');
    const [preloader, setPreloader] = useState(false);
    const [errorInfo, setErrorInfo] = useState(false);
+   const [messages, setMessages] = useState(false);
    const [checkout, setCheckout] = useState(false);
+   const location = useLocation();
 
    const handleClick = () => {
       setPreloader(true);
@@ -22,9 +25,9 @@ function Movies() {
             setMovies(res);
             setPreloader(false);
             setErrorInfo(false);
+            setMessages(true);
          })
-         .catch(err => {
-            console.log(err)
+         .catch(e => {
             setPreloader(false);
             setErrorInfo(true);
          })
@@ -39,7 +42,7 @@ function Movies() {
    const itemMovies = () => {
       if (movies.length > 0) {
          localStorage.setItem('itemMovies', JSON.stringify(filteredMovies))}
-         return JSON.parse(localStorage.getItem('itemMovies'));
+         return JSON.parse(localStorage.getItem('itemMovies')) || [];
       }
 
    return (
@@ -51,9 +54,10 @@ function Movies() {
          <FilterCheckbox
             checkout={setCheckout} />
          {preloader && <Preloader />}
-         {!preloader && !errorInfo && <MoviesCardList
+         {!preloader && <MoviesCardList
             movies={itemMovies()}
             errorInfo={errorInfo}
+            messages={messages}
          />}
       </div>
 

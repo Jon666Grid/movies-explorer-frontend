@@ -8,7 +8,7 @@ function Navigation() {
 
    return (
       <nav className='navigation'>
-            {open ? 
+            {!open ? 
             <div className='navigation__sidebar'>
                <button className='navigation__close navigation__active' onClick={() => setOpen(false)} type="button" />
                <ul className='navigation__lists'>

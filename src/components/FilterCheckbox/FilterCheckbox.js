@@ -3,19 +3,13 @@ import './FilterCheckbox.css';
 
 function FilterCheckbox(props) {
 
-   const [checked, setChecked] = useState(false);
-   const [items, setItems] = useState(JSON.parse(localStorage.getItem('itemChecked')));
-   localStorage.setItem('itemChecked', JSON.stringify(items));
+   const [checked, setChecked] = useState(JSON.parse(localStorage.getItem('itemChecked')) || false);
+   localStorage.setItem('itemChecked', JSON.stringify(checked));
 
    const chengeCheckbox = () => {
       setChecked(!checked);
-      setItems(!checked);
       checked ? props.checkout(true) : props.checkout(false);
    }
-
-   useEffect(() => {
-      setChecked(items);
-   }, [items])
 
    return (
       <div className='filter-checkbox'>

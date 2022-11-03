@@ -5,16 +5,16 @@ function SearchForm(props) {
 
    const [search, setSearch] = useState('');
    const [active, setActive] = useState(false);
-   const [items, setItems] = useState(JSON.parse(localStorage.getItem('itemInput')));
+   const [items, setItems] = useState(JSON.parse(localStorage.getItem('itemInput')) || '');
    localStorage.setItem('itemInput', JSON.stringify(items));
    
    const handleButton = (e) => {
       e.preventDefault();
       if (search.length > 0) {
+         setActive(false);
          props.apiClick();
          props.searchMovies(search);
          setItems(search);
-         setActive(false);
       }
       else {
          setActive(true);
