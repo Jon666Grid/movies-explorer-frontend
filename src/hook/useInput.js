@@ -5,6 +5,7 @@ const useValidation = (value, validations) => {
    const [maxLength, setMaxLength] = useState(false);
    const [isEmpty, setEmpty] = useState(false);
    const [isEmail, setEmail] = useState(false);
+   const [isName, setName] = useState(false);
    const [inputValid, setInputValid] = useState(false)
 
    useEffect(() => {
@@ -20,9 +21,13 @@ const useValidation = (value, validations) => {
                value.length > validations[validation] ? setMaxLength(true) : setMaxLength(false)
                break;
             case 'isEmail':
-               const re = /[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/igm
-               re.test(String(value).toLowerCase()) ? setEmail(false) : setEmail(true)
+               const res = /[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/igm
+               res.test(String(value).toLowerCase()) ? setEmail(false) : setEmail(true)
                break;
+               case 'isName':
+                  const rez = /^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/u
+                  rez.test(String(value).toLowerCase()) ? setName(false) : setName(true)
+                  break;
             default:
                break;
          }
@@ -42,7 +47,8 @@ const useValidation = (value, validations) => {
       minLength,
       maxLength,
       isEmail,
-      inputValid
+      inputValid,
+      isName
    }
 }
 
@@ -66,4 +72,12 @@ export const useInput = (initialValue, validations) => {
       isDirty,
       ...valid
    }
+}
+
+export const messageError = (item) => {
+   if ((item).isDirty && (item).isEmpty) return 'Поле не может быть пустым';
+   if ((item).isDirty && (item).minLength) return 'Некорректная длина';
+   if ((item).isDirty && (item).maxLength) return 'Некорректная длина';
+   if ((item).isDirty && (item).isName) return 'Некорректное Имя';
+   if ((item).isDirty && (item).isEmail) return 'Некорректный емайл';
 }

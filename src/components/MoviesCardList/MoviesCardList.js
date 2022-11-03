@@ -1,32 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect} from 'react';
+import  useWidth from '../../hook/useWidth.js'
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList(props) {
 
-   const getSize = useCallback(() => window.innerWidth, []);
-   const [size, setSize] = useState(getSize())
+   const size =  useWidth();
    const [moviesCount, setMoviesCount] = useState(props.movies);
    const onAddMore = props.movies ? props.movies.length : 0;
-
-   useEffect(() => {
-      const hanleResize = () => {
-         setSize(getSize)
-      };
-      window.addEventListener('resize', resizeThrottler, false)
-      let resizeTimeout;
-      function resizeThrottler() {
-         if (!resizeTimeout) {
-            resizeTimeout = setTimeout(() => {
-               resizeTimeout = null;
-               hanleResize();
-            }, 1000);
-         }
-      }
-      return () => {
-         window.removeEventListener('resize', hanleResize)
-      };
-   }, [getSize])
 
    useEffect(() => {
       if (size >= 1280) {

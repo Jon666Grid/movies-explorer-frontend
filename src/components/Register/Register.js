@@ -1,20 +1,13 @@
 import './Register.css';
 import { Link } from 'react-router-dom';
-import { useInput } from '../../hook/useInput.js'
+import { useInput, messageError } from '../../hook/useInput.js'
 import logo from '../../images/logo.svg';
 
 function Register(props) {
 
-   const name = useInput('', { isEmpty: true, minLength: 2 });
+   const name = useInput('', { isEmpty: true, minLength: 2, isName: true });
    const email = useInput('', { isEmpty: true, minLength: 3, maxLength: 30, isEmail: true });
    const password = useInput('', { isEmpty: true, minLength: 5, maxLength: 30, });
-
-   const messageError = (item) => {
-      if ((item).isDirty && (item).isEmpty) return 'Поле не может быть пустым';
-      if ((item).isDirty && (item).minLength) return 'Некорректная длина';
-      if ((item).isDirty && (item).maxLength) return 'Некорректная длина';
-      if ((item).isDirty && (item).isEmail) return 'Некорректный емайл';
-   }
 
    const disabledButton = !name.inputValid || !email.inputValid || !password.inputValid;
 
@@ -76,7 +69,7 @@ function Register(props) {
                   <p className='register__error'>{messageError(password)}</p>
                </label>
             </div>
-            <p className="register__error">{props.errorMessage}</p>
+            <p className="register__message">{props.message}</p>
             <button type='submit'
                className={`register__button  ${disabledButton && 'register__button_disabled'}`}
                disabled={disabledButton}

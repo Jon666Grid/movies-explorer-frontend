@@ -1,16 +1,23 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import  useWidth from '../../hook/useWidth.js'
 import './Navigation.css';
 
-function Navigation() {
+function Navigation(props) {
 
+   const size =  useWidth();
    const [open, setOpen] = useState(false);
+   const [visible, setVisible] = useState(true);
+
+   useEffect(() => {
+      size <= 900 ? setVisible(false): setVisible(true)
+   }, [size])
 
    return (
       <nav className='navigation'>
-            {!open ? 
+            {visible || open ? 
             <div className='navigation__sidebar'>
-               <button className='navigation__close navigation__active' onClick={() => setOpen(false)} type="button" />
+               <button className='navigation__close navigation__active' onClick={() => setOpen(prev => !prev)} type="button" />
                <ul className='navigation__lists'>
                   <li className='navigation__list navigation__list_hidden navigation__active'>
                      <Link to='/' className='navigation__link'>Главная</Link>
@@ -24,7 +31,7 @@ function Navigation() {
                </ul>
                <Link to='/profile' className='navigation__profile-link'>Аккаунт</Link>
                </div>
-               : <button className='navigation__burger navigation__active' onClick={() => setOpen(true)} type="button" />}
+               :  <button className='navigation__burger navigation__active' onClick={() => setOpen(prev => !prev)} type="button" />}
       </nav>
    );
 }
