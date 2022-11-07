@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { moviesApi } from '../../utils/MoviesApi.js';
 import * as mainApi from '../../utils/MainApi.js';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -17,9 +18,13 @@ import { useLocation } from 'react-router-dom';
 function App() {
 
   const [currentUser, setCurrentUser] = useState({});
+  const [movies, setMovies] = useState([]);
   const [moviesSave, setMoviesSave] = useState([]);
-  const [message, setMessage] = useState('');
+  const [preloader, setPreloader] = useState(false);
+  const [errorInfo, setErrorInfo] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isLiked, setLiked] = useState(false);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,82 +38,103 @@ function App() {
     }
   }, [location])
 
-  const onRegister = async (data) => {
-    try {
-      await mainApi
-        .register(data)
-        .then((res) => {
-          onLogin(data)
-        })
-    } catch (err) {
-      setMessage(`Ошибка: ${err.message.slice(12, -2)}`)
-      console.log(err);
-    }
+  const onRegister = (data) => {
+    mainApi
+      .register(data)
+      .then((res) => {
+        onLogin(data)
+      })
+      .catch(err => {
+        setMessage(`Ошибка: ${err.message.slice(12, -2)}`)
+        console.log(err)
+      });
+};
+
+  const onLogin = (data) => {
+    mainApi
+      .login(data)
+      .then((res) => {
+        setLoggedIn(true);
+        localStorage.setItem('jwt', res.token);
+        navigate('/movies');
+      })
+      .catch(err => {
+        setMessage(`Ошибка: ${err.message.slice(12, -2)}`);
+        setLoggedIn(false);
+        console.log(err)
+      });
   };
 
-  const onLogin = async (data) => {
-    try {
-      await mainApi
-        .login(data)
-        .then((res) => {
-          setLoggedIn(true);
-          localStorage.setItem('jwt', res.token);
-          navigate('/movies');
-        });
-    } catch (err) {
-      setMessage(`Ошибка: ${err.message.slice(12, -2)}`);
-      setLoggedIn(false);
-      console.log(err);
-    }
-  };
-
-  const tokenCheck = async () => {
+  const tokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
     if (!jwt) {
       return;
     }
-    try {
-      mainApi
-        .getUserInfo(jwt)
-        .then((data) => {
-          setLoggedIn(true);
-          setCurrentUser(data);
-        })
-    } catch (err) { console.log(err) };
+    mainApi
+      .getUserInfo(jwt)
+      .then((data) => {
+        setLoggedIn(true);
+        setCurrentUser(data);
+      })
+      .catch(err => console.log(err));
   };
 
-  const handleUpdateUser = async (data) => {
+  const handleUpdateUser = (data) => {
     const jwt = localStorage.getItem('jwt');
     setLoggedIn(true);
-    try {
-      await mainApi
-        .updateUser(data, jwt).then((newUser) => {
-          setCurrentUser(newUser);
-          setMessage('Профиль успешно редактирован!')
-        })
-    } catch (err) {
-      setMessage('Что-то пошло не так!')
-      setLoggedIn(false);
-      console.log(err)
-    }
+    mainApi
+      .updateUser(data, jwt).then((newUser) => {
+        setCurrentUser(newUser);
+        setMessage('Профиль успешно редактирован!')
+      })
+      .catch(err => {
+        setMessage('Что-то пошло не так!')
+        setLoggedIn(false);
+        console.log(err)
+      })
   };
 
-  const handleSaveMovie = async (data) => {
+  const getMovies = () => {
+    setPreloader(true);
+    setMovies([]);
+    moviesApi()
+      .then(res => {
+        setMovies(res);
+        setPreloader(false);
+        setErrorInfo(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setErrorInfo(true)
+        setPreloader(false)
+      })
+  }
+
+  const getMyMovies = () => {
+    setPreloader(true);
     const jwt = localStorage.getItem('jwt');
-    try {
-      await mainApi.getMovies(jwt).then((data) =>
-        setMoviesSave(data));
-    } catch (err) { console.log(err) };
+    mainApi.getMovies(jwt)
+      .then((data) => {
+        setMoviesSave(data)
+        setPreloader(false);
+      })
+      .catch(err => {
+        console.log(err)
+        setPreloader(false);
+      })
+  }
+
+  const handleSaveMovie = (data) => {
+    const jwt = localStorage.getItem('jwt');
     const isLiked = moviesSave.some(i => {
       return i.movieId === data.id
     });
-    try {
-      if (!isLiked) {
-        await mainApi.createMovie(data, jwt)
-        await mainApi.getMovies(jwt).then((data) =>
-          setMoviesSave(data))
-      }
-    } catch (err) { console.log(err) }
+    setLiked(isLiked);
+    if (!isLiked) {
+      mainApi
+        .createMovie(data, jwt)
+        .catch(err => console.log(err));
+    }
   };
 
 
@@ -136,12 +162,19 @@ function App() {
           <Route path='/movies'
             element={
               <Movies 
-              handleSaveMovie={handleSaveMovie}/>}
+              getMovies={getMovies}
+              handleSaveMovie={handleSaveMovie}
+              movies={movies}
+              isLiked={isLiked}
+              preloader={preloader}
+              errorInfo={errorInfo}/>}
           />
           <Route path='/saved-movies'
             element={
-              <SavedMovies 
-              moviesSave={moviesSave}/>}
+              <SavedMovies
+              getMyMovies={getMyMovies}
+              moviesSave={moviesSave}
+              preloader={preloader}/>}
           />
           <Route path='/profile'
             element={

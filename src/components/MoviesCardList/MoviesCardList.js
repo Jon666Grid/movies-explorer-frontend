@@ -4,47 +4,48 @@ import useWidth from '../../hook/useWidth.js'
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList(props) {
+function MoviesCardList({movies, message, errorInfo, isLiked, handleSaveMovie}) {
 
    const location = useLocation();
    const size = useWidth();
    const [moviesCount, setMoviesCount] = useState([]);
    const savedMovies = location.pathname === '/saved-movies';
-   const onAddMore = props.movies ? props.movies.length : null;
+   const onAddMore = movies ? movies.length : null;
    
    useEffect(() => {
       if (savedMovies) {
-         setMoviesCount(props.movies)
+         setMoviesCount(movies)
       } else if (size >= 1280) {
-         setMoviesCount(props.movies.slice(0, 12))
+         setMoviesCount(movies.slice(0, 12))
       } else if (size >= 768) {
-         setMoviesCount(props.movies.slice(0, 8))
+         setMoviesCount(movies.slice(0, 8))
       } else if (size <= 767) {
-         setMoviesCount(props.movies.slice(0, 5))
+         setMoviesCount(movies.slice(0, 5))
       }
-   }, [savedMovies, size, props.movies])
+   }, [savedMovies, size, movies])
 
    const handleAddMore = () => {
       if (size >= 1280) {
-         setMoviesCount(props.movies.slice(0, moviesCount.length + 3));
+         setMoviesCount(movies.slice(0, moviesCount.length + 3));
       } else {
-         setMoviesCount(props.movies.slice(0, moviesCount.length + 2));
+         setMoviesCount(movies.slice(0, moviesCount.length + 2));
       }
    }
 
    return (
       <section className='movies-cards'>
-         {!props.message ?
+         {!message ?
             <ul className='movies-cards__list'>
                {moviesCount.map((item) => (
                   <MoviesCard
                      movie={item}
                      key={item.movieId || item.id}
-                     handleSaveMovie={props.handleSaveMovie}
+                     isLiked={isLiked}
+                     handleSaveMovie={handleSaveMovie}
                   />))}
             </ul> :
             <div className='movies-cards__text'>
-               {props.errorInfo ?
+               {errorInfo ?
                   `Во время запроса произошла ошибка. 
                   Возможно, проблема с соединением или сервер недоступен. 
                   Подождите немного и попробуйте ещё раз`

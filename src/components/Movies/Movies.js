@@ -1,60 +1,43 @@
 import './Movies.css';
 import { useState } from 'react';
-import { moviesApi } from '../../utils/MoviesApi.js';
 import { filter } from '../../utils/Utils.js'
 import SearchForm from '../SearchForm/SearchForm';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies(props) {
+function Movies({ getMovies, movies, preloader, errorInfo, isLiked, handleSaveMovie }) {
 
-   const [movies, setMovies] = useState([]);
-   const [searchFilter, setSearchFilter] = useState('');
-   const [preloader, setPreloader] = useState(false);
-   const [errorInfo, setErrorInfo] = useState(false);
-   const [checkout, setCheckout] = useState(false);
+   const [searchFilter, setSearchFilter] = useState(JSON.parse(localStorage.getItem('itemSearch')) || '');
+   const [checkMovies, setCheckMovies] = useState(JSON.parse(localStorage.getItem('itemChecked')) || false);
 
-   const handleMovies = () => {
-      setPreloader(true);
-      setMovies([]);
-      moviesApi()
-         .then(res => {
-            setMovies(res);
-            setPreloader(false);
-            setErrorInfo(false);
-         })
-         .catch(err => {
-            setPreloader(false);
-            setErrorInfo(true);
-            console.log(err)
-         })
-   }
+   const filtered = filter(movies, searchFilter, checkMovies);
+   filtered.length > 0 &&
+   localStorage.setItem('itemSave', JSON.stringify(filtered));
+   localStorage.setItem('itemChecked', JSON.stringify(checkMovies));
+   localStorage.setItem('itemSearch', JSON.stringify(searchFilter));
 
-   const itemMovies = () => {
-      if (movies.length > 0) {
-         const filteredMovies = filter(movies, searchFilter);
-         localStorage.setItem('itemMovies', JSON.stringify(filteredMovies))
-      }
-      return JSON.parse(localStorage.getItem('itemMovies')) || [];
-   }
-
-   const message = searchFilter.length > 0 & itemMovies().length === 0 || errorInfo ? true : false;
+   const message = searchFilter.length > 0 & filtered.length === 0 || errorInfo ? true : false;
 
    return (
       <div className='movies'>
          <SearchForm
+            getMovies={getMovies}
+            searchFilter={searchFilter}
             searchMovies={setSearchFilter}
-            onClick={handleMovies}
          />
          <FilterCheckbox
-            checkout={setCheckout} />
-         {preloader && <Preloader />}
+            check={setCheckMovies}
+            checkMovies={checkMovies}
+         />
+         {preloader && <Preloader
+         />}
          {!preloader && <MoviesCardList
-            movies={itemMovies()}
+            handleSaveMovie={handleSaveMovie}
+            isLiked={isLiked}
+            movies={filtered}
             errorInfo={errorInfo}
             message={message}
-            handleSaveMovie={props.handleSaveMovie}
          />}
       </div>
 

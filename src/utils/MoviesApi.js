@@ -4,6 +4,7 @@ export const moviesApi = () => {
    return fetch(`${MOVIE_URL}`, {
       method: 'GET',
       headers: {
+         'Accept': 'application/json',
          'Content-Type': 'application/json',
       },
    })

@@ -1,47 +1,42 @@
 import './SavedMovies.css';
-import { useEffect, useState, useContext } from 'react';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
+import { useState, useEffect } from 'react';
 import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { filter } from '../../utils/Utils.js'
-import * as mainApi from '../../utils/MainApi.js';
 
-function SavedMovies(props) {
+function SavedMovies({ getMyMovies, moviesSave, preloader }) {
 
-   const [movies, setMovies] = useState([]);
-   const [searchFilter, setSearchFilter] = useState('');
-   const [preloader, setPreloader] = useState(false);
+   const [searchFilter, setSearchFilter] = useState(JSON.parse(localStorage.getItem('mySearch')) || '');
+   const [checkMovies, setCheckMovies] = useState(JSON.parse(localStorage.getItem('myChecked')) || false);
 
    useEffect(() => {
-      setPreloader(true);
-      const jwt = localStorage.getItem('jwt');
-      mainApi.getMovies(jwt)
-         .then((data) => {
-            setMovies(data)
-            setPreloader(false);
-         })
-         .catch(err => {
-            console.log(err)
-            setPreloader(false);
-         })
+      getMyMovies()
    }, [])
 
-   const itemSavedMovies = () => filter(movies, searchFilter);
+   const filtered = filter(moviesSave, searchFilter, checkMovies);
+   filtered.length > 0 &&
+   localStorage.setItem('mySave', JSON.stringify(filtered));
+   localStorage.setItem('myChecked', JSON.stringify(checkMovies));
+   localStorage.setItem('mySearch', JSON.stringify(searchFilter));
 
-   const message = searchFilter.length > 0 & itemSavedMovies().length === 0 ? true : false;
+   const message = searchFilter.length > 0 & filtered.length === 0 ? true : false;
 
    return (
       <section className='saved-movies'>
-         <SearchForm 
-         searchMovies={setSearchFilter}
-         onClick={itemSavedMovies}/>
-         <FilterCheckbox />
-         {preloader && <Preloader /> } 
+         <SearchForm
+            searchFilter={searchFilter}
+            searchMovies={setSearchFilter}
+         />
+         <FilterCheckbox
+            check={setCheckMovies}
+            checkMovies={checkMovies}
+         />
+         {preloader && <Preloader />}
          {!preloader && <MoviesCardList
-         movies={itemSavedMovies()}
-         message={message}
+            movies={filtered}
+            message={message}
          />}
       </section>
    );

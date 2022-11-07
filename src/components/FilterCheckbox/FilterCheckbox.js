@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox(props) {
+function FilterCheckbox({check , checkMovies}) {
 
-   const [checked, setChecked] = useState(JSON.parse(localStorage.getItem('itemChecked')) || false);
-   localStorage.setItem('itemChecked', JSON.stringify(checked));
+   const [checked, setChecked] = useState(false);
 
    const chengeCheckbox = () => {
       setChecked(!checked);
-      checked ? props.checkout(true) : props.checkout(false);
+      checked ? check(false) : check(true);
    }
+
+   useEffect (() => {
+      setChecked(checkMovies)
+   },[checkMovies])
 
    return (
       <div className='filter-checkbox'>

@@ -10,9 +10,19 @@ export const getTimeFromMins = (mins) => {
    }
 };
 
-export const filter = (data, item) => { 
-   return (data).filter(n => {
-   const movieRu = String(n.nameRU).toLowerCase().trim();
-   const movieEn = String(n.nameEN).toLowerCase().trim();
-   return movieRu.includes(item.toLowerCase()) || movieEn.includes(item.toLowerCase());
-})};
+function checkMovies(data) {
+   return data.filter(n => n.duration < 40);
+}
+
+export const filter = (data, search, check) => {
+   const userMovies = (data).filter(n => {
+      const movieRu = String(n.nameRU).toLowerCase().trim();
+      const movieEn = String(n.nameEN).toLowerCase().trim();
+      return movieRu.includes(search.toLowerCase()) || movieEn.includes(search.toLowerCase());
+   });
+   if (check) {
+      return checkMovies(userMovies);
+   } else {
+      return userMovies;
+   }
+};

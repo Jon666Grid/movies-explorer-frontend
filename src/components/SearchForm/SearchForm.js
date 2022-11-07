@@ -1,29 +1,24 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
-function SearchForm(props) {
+function SearchForm({ getMovies, searchMovies ,searchFilter }) {
 
-   const [search, setSearch] = useState('');
+   const location = useLocation();
+   const [search, setSearch] = useState(searchFilter);
    const [active, setActive] = useState(false);
-   const [items, setItems] = useState(JSON.parse(localStorage.getItem('itemInput')) || '');
-   localStorage.setItem('itemInput', JSON.stringify(items));
-   
+
    const handleButton = (e) => {
       e.preventDefault();
       if (search.length > 0) {
          setActive(false);
-         props.onClick();
-         props.searchMovies(search);
-         setItems(search);
+         location.pathname !== '/saved-movies' && getMovies();
+         searchMovies(search);
       }
       else {
          setActive(true);
       }
    }
-
-   useEffect(() => {
-      setSearch(items);
-   }, [items])
 
    const activeClass = active && 'search-form_active';
 
@@ -36,7 +31,7 @@ function SearchForm(props) {
                type='text'
                placeholder='Фильм'
                onChange={(e) => setSearch(e.target.value)}
-               value={search || ''}
+               value={search}
                required
             />
             <button className='search-form__button'
