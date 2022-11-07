@@ -12,7 +12,7 @@ function SearchForm(props) {
       e.preventDefault();
       if (search.length > 0) {
          setActive(false);
-         props.apiClick();
+         props.onClick();
          props.searchMovies(search);
          setItems(search);
       }

@@ -1,7 +1,7 @@
 const BASE_URL = 'http://localhost:3000';
 
 const checkResponse = (response) => {
-   return response.ok ? response.json() : Promise.reject((`Ошибка ${response.status} : ${response.statusText}`));
+   return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
 };
 
 const headers = {
@@ -16,7 +16,6 @@ export const register = ({ email, password, name }) => {
       body: JSON.stringify({ email, password, name })
    })
       .then(res => checkResponse(res));
-      
 };
 
 export const login = ({ email, password }) => {
@@ -63,12 +62,24 @@ export const getMovies = (token) => {
 
 export const createMovie = (data, token) => {
    return fetch(`${BASE_URL}/movies`, {
-      method: "POST",
+      method: 'POST',
       headers: {
          ...headers,
          'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+         country: data.country,
+         director: data.director,
+         duration: data.duration,
+         year: data.year,
+         description: data.description,
+         image: 'https://api.nomoreparties.co/' + data.image.url,
+         trailerLink: data.trailerLink,
+         thumbnail: 'https://api.nomoreparties.co/' + data.image.formats.thumbnail.url,
+         movieId: data.id,
+         nameRU: data.nameRU,
+         nameEN: data.nameEN,
+      }),
    }).then(res => checkResponse(res));
 }
 

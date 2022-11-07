@@ -9,3 +9,10 @@ export const getTimeFromMins = (mins) => {
       return hours + 'ч ' + minutes + 'м ';
    }
 };
+
+export const filter = (data, item) => { 
+   return (data).filter(n => {
+   const movieRu = String(n.nameRU).toLowerCase().trim();
+   const movieEn = String(n.nameEN).toLowerCase().trim();
+   return movieRu.includes(item.toLowerCase()) || movieEn.includes(item.toLowerCase());
+})};

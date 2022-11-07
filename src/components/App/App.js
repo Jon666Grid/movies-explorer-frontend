@@ -17,12 +17,11 @@ import { useLocation } from 'react-router-dom';
 function App() {
 
   const [currentUser, setCurrentUser] = useState({});
+  const [moviesSave, setMoviesSave] = useState([]);
   const [message, setMessage] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log(loggedIn)
 
   useEffect(() => {
     tokenCheck();
@@ -30,35 +29,22 @@ function App() {
 
   useEffect(() => {
     if (location.pathname) {
-      setMessage('')}
-  }, [location])
-
-  const tokenCheck = async () => {
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) {
-      return;
+      setMessage('')
     }
-    try {
-      mainApi
-        .getUserInfo(jwt)
-        .then((data) => {
-          setCurrentUser(data);
-          setLoggedIn(true);
-        })
-    } catch (err) { console.log(err) };
-  };
+  }, [location])
 
   const onRegister = async (data) => {
     try {
       await mainApi
         .register(data)
-        .then(() => {
-        onLogin(data)})
+        .then((res) => {
+          onLogin(data)
+        })
     } catch (err) {
-      setMessage(`Что-то пошло не так! ${err}`)
+      setMessage(`Ошибка: ${err.message.slice(12, -2)}`)
       console.log(err);
     }
-  }
+  };
 
   const onLogin = async (data) => {
     try {
@@ -70,13 +56,28 @@ function App() {
           navigate('/movies');
         });
     } catch (err) {
-      setMessage(`Что-то пошло не так! ${err}`)
+      setMessage(`Ошибка: ${err.message.slice(12, -2)}`);
+      setLoggedIn(false);
       console.log(err);
     }
-    finally { setLoggedIn(false)};
-  }
+  };
 
-  const handleUpdateUser = async (data,) => {
+  const tokenCheck = async () => {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      return;
+    }
+    try {
+      mainApi
+        .getUserInfo(jwt)
+        .then((data) => {
+          setLoggedIn(true);
+          setCurrentUser(data);
+        })
+    } catch (err) { console.log(err) };
+  };
+
+  const handleUpdateUser = async (data) => {
     const jwt = localStorage.getItem('jwt');
     setLoggedIn(true);
     try {
@@ -86,60 +87,89 @@ function App() {
           setMessage('Профиль успешно редактирован!')
         })
     } catch (err) {
-      setMessage(`Что-то пошло не так! ${err}`)
+      setMessage('Что-то пошло не так!')
+      setLoggedIn(false);
       console.log(err)
     }
-    finally { setLoggedIn(false)};
-  }
+  };
+
+  const handleSaveMovie = async (data) => {
+    const jwt = localStorage.getItem('jwt');
+    try {
+      await mainApi.getMovies(jwt).then((data) =>
+        setMoviesSave(data));
+    } catch (err) { console.log(err) };
+    const isLiked = moviesSave.some(i => {
+      return i.movieId === data.id
+    });
+    try {
+      if (!isLiked) {
+        await mainApi.createMovie(data, jwt)
+        await mainApi.getMovies(jwt).then((data) =>
+          setMoviesSave(data))
+      }
+    } catch (err) { console.log(err) }
+  };
+
+
+  const handleSignOut = () => {
+    localStorage.clear();
+    setCurrentUser({});
+    setMoviesSave([])
+    setLoggedIn(false);
+    navigate('/');
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='app'>
+        {(location.pathname === '/' ||
+          location.pathname === '/movies' ||
+          location.pathname === '/saved-movies' ||
+          location.pathname === '/profile') &&
+          <Header loggedIn={loggedIn} />}
         <Routes>
-          <Route path='/' element={
-            <>
-              <Header />
-              <Main />
-              <Footer />
-            </>}
+          <Route path='/'
+            element={
+              <Main />}
           />
-          <Route path='/movies' element={
-            <>
-              <Header
-                loggedIn={loggedIn}
-              />
-              <Movies />
-              <Footer />
-            </>}
+          <Route path='/movies'
+            element={
+              <Movies 
+              handleSaveMovie={handleSaveMovie}/>}
           />
-          <Route path='/saved-movies' element={
-            <>
-              <Header />
-              <SavedMovies />
-              <Footer />
-            </>
-          } />
-          <Route path='/profile' element={
-            <>
-              <Header
-                loggedIn={loggedIn} />
+          <Route path='/saved-movies'
+            element={
+              <SavedMovies 
+              moviesSave={moviesSave}/>}
+          />
+          <Route path='/profile'
+            element={
               <Profile
-                updateUser={handleUpdateUser}
-                message={message} />
-            </>
-          } />
-          <Route path='/signup' element={
-            <Register
-              onRegister={onRegister}
-              message={message}
-            />} />
-          <Route path='/signin' element={
-            <Login
-              onLogin={onLogin}
-              message={message}
-            />} />
-          <Route path='*' element={<PageNotFound />} />
+                handleUpdateUser={handleUpdateUser}
+                message={message}
+                signOut={handleSignOut} />}
+          />
+          <Route path='/signup'
+            element={
+              <Register
+                onRegister={onRegister}
+                message={message} />}
+          />
+          <Route path='/signin'
+            element={
+              <Login
+                onLogin={onLogin}
+                message={message} />}
+          />
+          <Route path='*'
+            element={<PageNotFound />}
+          />
         </Routes>
+        {(location.pathname === '/' ||
+          location.pathname === '/movies' ||
+          location.pathname === '/saved-movies') &&
+          <Footer />}
       </div>
     </CurrentUserContext.Provider>
   );

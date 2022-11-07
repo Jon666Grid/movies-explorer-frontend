@@ -14,7 +14,7 @@ function Profile(props) {
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      props.updateUser({
+      props.handleUpdateUser({
          name: name.value,
          email: email.value
       });
@@ -52,7 +52,10 @@ function Profile(props) {
                <button className={`profile__button-edit  ${disabledButton && 'profile__button-edit_disabled'}`} type='submit'
                   disabled={disabledButton}>
                   Редактировать</button>
-               <button className='profile__button-exit' type='button'>
+               <button className='profile__button-exit' 
+               type='button'
+               onClick={() => props.signOut()}
+               >
                   Выйти из аккаунта
                </button>
             </div>

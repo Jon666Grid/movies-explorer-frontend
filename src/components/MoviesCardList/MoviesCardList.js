@@ -1,23 +1,28 @@
-import React, { useState, useEffect} from 'react';
-import  useWidth from '../../hook/useWidth.js'
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import useWidth from '../../hook/useWidth.js'
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList(props) {
 
-   const size =  useWidth();
-   const [moviesCount, setMoviesCount] = useState(props.movies);
-   const onAddMore = props.movies ? props.movies.length : 0;
-
+   const location = useLocation();
+   const size = useWidth();
+   const [moviesCount, setMoviesCount] = useState([]);
+   const savedMovies = location.pathname === '/saved-movies';
+   const onAddMore = props.movies ? props.movies.length : null;
+   
    useEffect(() => {
-      if (size >= 1280) {
+      if (savedMovies) {
+         setMoviesCount(props.movies)
+      } else if (size >= 1280) {
          setMoviesCount(props.movies.slice(0, 12))
       } else if (size >= 768) {
          setMoviesCount(props.movies.slice(0, 8))
       } else if (size <= 767) {
          setMoviesCount(props.movies.slice(0, 5))
       }
-   }, [size, props.movies])
+   }, [savedMovies, size, props.movies])
 
    const handleAddMore = () => {
       if (size >= 1280) {
@@ -29,18 +34,23 @@ function MoviesCardList(props) {
 
    return (
       <section className='movies-cards'>
-         {!props.messages || props.movies.length > 0 ?
+         {!props.message ?
             <ul className='movies-cards__list'>
                {moviesCount.map((item) => (
                   <MoviesCard
-                     key={item.id || item.movieId}
                      movie={item}
+                     key={item.movieId || item.id}
+                     handleSaveMovie={props.handleSaveMovie}
                   />))}
             </ul> :
             <div className='movies-cards__text'>
                {props.errorInfo ?
-                  'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
-                  : 'Ничего не найдено'}</div>}
+                  `Во время запроса произошла ошибка. 
+                  Возможно, проблема с соединением или сервер недоступен. 
+                  Подождите немного и попробуйте ещё раз`
+                  :
+                  `Ничего не найдено`}
+            </div>}
          {onAddMore !== moviesCount.length && <div className='movies-cards__button-container'>
             <button className='movies-cards__button'
                type='button'
