@@ -1,6 +1,8 @@
+import { SHORT_FILM, MINUTES_PER_HOUR } from '../utils/constants.js';
+
 export const getTimeFromMins = (mins) => {
-   let hours = Math.trunc(mins / 60);
-   let minutes = mins % 60;
+   let hours = Math.trunc(mins / MINUTES_PER_HOUR);
+   let minutes = mins % MINUTES_PER_HOUR;
    if (hours === 0) {
       return minutes + 'м ';
    } else if (minutes === 0) {
@@ -11,7 +13,7 @@ export const getTimeFromMins = (mins) => {
 };
 
 function checkMovies(data) {
-   return data.filter(n => n.duration < 40);
+   return data.filter(n => n.duration < SHORT_FILM);
 }
 
 export const filter = (data, search, check) => {

@@ -23,20 +23,19 @@ function App() {
   const [preloader, setPreloader] = useState(false);
   const [errorInfo, setErrorInfo] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isLiked, setLiked] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     tokenCheck();
-  }, [loggedIn])
+  }, []);
 
   useEffect(() => {
     if (location.pathname) {
       setMessage('')
     }
-  }, [location])
+  }, [location]);
 
   const onRegister = (data) => {
     mainApi
@@ -47,8 +46,8 @@ function App() {
       .catch(err => {
         setMessage(`Ошибка: ${err.message.slice(12, -2)}`)
         console.log(err)
-      });
-};
+      })
+  };
 
   const onLogin = (data) => {
     mainApi
@@ -62,7 +61,7 @@ function App() {
         setMessage(`Ошибка: ${err.message.slice(12, -2)}`);
         setLoggedIn(false);
         console.log(err)
-      });
+      })
   };
 
   const tokenCheck = () => {
@@ -75,6 +74,7 @@ function App() {
       .then((data) => {
         setLoggedIn(true);
         setCurrentUser(data);
+        navigate(location.pathname);
       })
       .catch(err => console.log(err));
   };
@@ -100,6 +100,7 @@ function App() {
     moviesApi()
       .then(res => {
         setMovies(res);
+        getMyMovies();
         setPreloader(false);
         setErrorInfo(false)
       })
@@ -108,7 +109,7 @@ function App() {
         setErrorInfo(true)
         setPreloader(false)
       })
-  }
+  };
 
   const getMyMovies = () => {
     setPreloader(true);
@@ -122,21 +123,25 @@ function App() {
         console.log(err)
         setPreloader(false);
       })
-  }
+  };
 
   const handleSaveMovie = (data) => {
     const jwt = localStorage.getItem('jwt');
-    const isLiked = moviesSave.some(i => {
-      return i.movieId === data.id
-    });
-    setLiked(isLiked);
-    if (!isLiked) {
-      mainApi
-        .createMovie(data, jwt)
-        .catch(err => console.log(err));
-    }
+    mainApi
+      .createMovie(data, jwt)
+      .then((res) => {
+        setMoviesSave((prev) => [...prev, res])
+      }).catch(err => console.log(err));
   };
 
+  const handleDeleteMovie = (data) => {
+    const jwt = localStorage.getItem('jwt');
+    mainApi
+      .deleteMovie(data._id, jwt)
+      .then(() => {
+        setMoviesSave((item) => item.filter((c) => c._id !== data._id));
+      }).catch(err => console.log(err))
+  };
 
   const handleSignOut = () => {
     localStorage.clear();
@@ -161,20 +166,24 @@ function App() {
           />
           <Route path='/movies'
             element={
-              <Movies 
-              getMovies={getMovies}
-              handleSaveMovie={handleSaveMovie}
-              movies={movies}
-              isLiked={isLiked}
-              preloader={preloader}
-              errorInfo={errorInfo}/>}
+              <Movies
+                getMovies={getMovies}
+                handleSaveMovie={handleSaveMovie}
+                handleDeleteMovie={handleDeleteMovie}
+                movies={movies}
+                moviesSave={moviesSave}
+                preloader={preloader}
+                errorInfo={errorInfo}
+                loggedIn={loggedIn} />}
           />
           <Route path='/saved-movies'
             element={
               <SavedMovies
-              getMyMovies={getMyMovies}
-              moviesSave={moviesSave}
-              preloader={preloader}/>}
+                getMyMovies={getMyMovies}
+                handleDeleteMovie={handleDeleteMovie}
+                moviesSave={moviesSave}
+                preloader={preloader}
+                loggedIn={loggedIn} />}
           />
           <Route path='/profile'
             element={

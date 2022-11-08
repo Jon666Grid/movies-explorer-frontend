@@ -1,7 +1,7 @@
-const BASE_URL = 'http://localhost:3000';
+import { MY_MOVIES_API } from '../utils/constants.js';
 
 const checkResponse = (response) => {
-   return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
+   return response.ok ? response.json() : response.text().then(text => { throw new Error(text) });
 };
 
 const headers = {
@@ -10,7 +10,7 @@ const headers = {
 };
 
 export const register = ({ email, password, name }) => {
-   return fetch(`${BASE_URL}/signup`, {
+   return fetch(`${MY_MOVIES_API}/signup`, {
       headers,
       method: 'POST',
       body: JSON.stringify({ email, password, name })
@@ -19,17 +19,16 @@ export const register = ({ email, password, name }) => {
 };
 
 export const login = ({ email, password }) => {
-   return fetch(`${BASE_URL}/signin`, {
+   return fetch(`${MY_MOVIES_API}/signin`, {
       headers,
       method: 'POST',
       body: JSON.stringify({ email, password })
    })
       .then(res => checkResponse(res));
-      
 };
 
 export const getUserInfo = (token) => {
-   return fetch(`${BASE_URL}/users/me`, {
+   return fetch(`${MY_MOVIES_API}/users/me`, {
       headers: {
          ...headers,
          'Authorization': `Bearer ${token}`
@@ -38,7 +37,7 @@ export const getUserInfo = (token) => {
 }
 
 export const updateUser = (data, token) => {
-   return fetch(`${BASE_URL}/users/me`, {
+   return fetch(`${MY_MOVIES_API}/users/me`, {
       method: "PATCH",
       headers: {
          ...headers,
@@ -52,7 +51,7 @@ export const updateUser = (data, token) => {
 }
 
 export const getMovies = (token) => {
-   return fetch(`${BASE_URL}/movies`, {
+   return fetch(`${MY_MOVIES_API}/movies`, {
       headers: {
          ...headers,
          'Authorization': `Bearer ${token}`
@@ -61,7 +60,7 @@ export const getMovies = (token) => {
 }
 
 export const createMovie = (data, token) => {
-   return fetch(`${BASE_URL}/movies`, {
+   return fetch(`${MY_MOVIES_API}/movies`, {
       method: 'POST',
       headers: {
          ...headers,
@@ -84,7 +83,7 @@ export const createMovie = (data, token) => {
 }
 
 export const deleteMovie = (movieId, token) => {
-   return fetch(`${BASE_URL}/movies/${movieId}`, {
+   return fetch(`${MY_MOVIES_API}/movies/${movieId}`, {
       method: "DELETE",
       headers: {
          ...headers,

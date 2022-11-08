@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
@@ -7,12 +7,14 @@ function SearchForm({ getMovies, searchMovies ,searchFilter }) {
    const location = useLocation();
    const [search, setSearch] = useState(searchFilter);
    const [active, setActive] = useState(false);
+   const movies = location.pathname === '/movies';
+   const res = !/[^\s]/.test(search);
 
    const handleButton = (e) => {
       e.preventDefault();
-      if (search.length > 0) {
+      if (!res & search.length > 0) {
          setActive(false);
-         location.pathname !== '/saved-movies' && getMovies();
+         movies && getMovies();
          searchMovies(search);
       }
       else {
