@@ -44,8 +44,7 @@ function App() {
         onLogin(data)
       })
       .catch(err => {
-        setMessage(`Ошибка: ${err.message.slice(12, -2)}`)
-        console.log(err)
+        setMessage(`Что-то пошло не так! ${err}`)
       })
   };
 
@@ -58,9 +57,8 @@ function App() {
         navigate('/movies');
       })
       .catch(err => {
-        setMessage(`Ошибка: ${err.message.slice(12, -2)}`);
+        setMessage(`Что-то пошло не так! ${err}`);
         setLoggedIn(false);
-        console.log(err)
       })
   };
 
@@ -88,7 +86,7 @@ function App() {
         setMessage('Профиль успешно редактирован!')
       })
       .catch(err => {
-        setMessage('Что-то пошло не так!')
+        setMessage('Что-то пошло не так')
         setLoggedIn(false);
         console.log(err)
       })

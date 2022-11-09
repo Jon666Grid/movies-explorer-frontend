@@ -1,7 +1,7 @@
 import { MY_MOVIES_API } from '../utils/constants.js';
 
-const checkResponse = (response) => {
-   return response.ok ? response.json() : response.text().then(text => { throw new Error(text) });
+const checkResponse = (res) => {
+   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 };
 
 const headers = {

@@ -1,5 +1,5 @@
 export const MOVIES_API = 'https://api.nomoreparties.co/beatfilm-movies';
-export const MY_MOVIES_API = 'http://localhost:3000';
+export const MY_MOVIES_API = 'https://api.movie.nomoredomains.icu';
 export const SHORT_FILM = 40;
 export const MINUTES_PER_HOUR = 60;
 export const LARGE_SCREEN = 1280;
