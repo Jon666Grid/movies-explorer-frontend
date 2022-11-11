@@ -7,33 +7,43 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies({loggedIn, getMovies, movies, preloader, errorInfo, moviesSave, handleSaveMovie, handleDeleteMovie}) {
+function Movies({ loggedIn,
+   getMovies,
+   movies,
+   preloader,
+   errorInfo,
+   moviesSave,
+   handleSaveMovie,
+   handleDeleteMovie }) {
 
    const navigate = useNavigate();
+   const [disabled, setDisabled] = useState(false);
    const [searchFilter, setSearchFilter] = useState(JSON.parse(localStorage.getItem('itemSearch')) || '');
    const [checkMovies, setCheckMovies] = useState(JSON.parse(localStorage.getItem('itemChecked')) || false);
-
-   useEffect(() => {
-      if(!loggedIn) navigate('/'); 
-      if(searchFilter.length > 0) {
-         getMovies();
-      }
-   }, [])
-
-   const filtered = filter(movies, searchFilter, checkMovies);
-   filtered.length > 0 &&
-   localStorage.setItem('itemSave', JSON.stringify(filtered));
+   const [allMovies, setAllMovies] = useState(JSON.parse(localStorage.getItem('itemSave')) || []);
+   localStorage.setItem('itemSave', JSON.stringify(allMovies));
    localStorage.setItem('itemChecked', JSON.stringify(checkMovies));
    localStorage.setItem('itemSearch', JSON.stringify(searchFilter));
 
-   const message = searchFilter.length > 0 & filtered.length === 0 || errorInfo ? true : false;
+   useEffect(() => { if (!loggedIn) navigate('/'); getMovies(); }, []);
+
+   useEffect(() => {
+      if (searchFilter.length > 0)
+      setDisabled(true);
+      setAllMovies(filter(movies, searchFilter, checkMovies))
+      setDisabled(false);
+   }, [movies, searchFilter, checkMovies]);
+
+   console.log(allMovies)
+
+   const message = searchFilter.length > 0 & allMovies.length === 0 || errorInfo ? true : false;
 
    return (
       <div className='movies'>
          <SearchForm
-            getMovies={getMovies}
             searchFilter={searchFilter}
             searchMovies={setSearchFilter}
+            disabled={disabled}
          />
          <FilterCheckbox
             check={setCheckMovies}
@@ -44,7 +54,7 @@ function Movies({loggedIn, getMovies, movies, preloader, errorInfo, moviesSave, 
          {!preloader && <MoviesCardList
             handleSaveMovie={handleSaveMovie}
             handleDeleteMovie={handleDeleteMovie}
-            movies={filtered}
+            movies={allMovies}
             moviesSave={moviesSave}
             errorInfo={errorInfo}
             message={message}

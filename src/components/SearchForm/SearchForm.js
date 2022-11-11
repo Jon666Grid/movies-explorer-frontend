@@ -1,20 +1,16 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
-function SearchForm({ getMovies, searchMovies ,searchFilter }) {
+function SearchForm({ disabled, searchMovies, searchFilter }) {
 
-   const location = useLocation();
    const [search, setSearch] = useState(searchFilter);
    const [active, setActive] = useState(false);
-   const movies = location.pathname === '/movies';
    const res = !/[^\s]/.test(search);
 
    const handleButton = (e) => {
       e.preventDefault();
       if (!res & search.length > 0) {
          setActive(false);
-         movies && getMovies();
          searchMovies(search);
       }
       else {
@@ -25,7 +21,7 @@ function SearchForm({ getMovies, searchMovies ,searchFilter }) {
    const activeClass = active && 'search-form_active';
 
    return (
-      <form className='search-form'>
+      <form className='search-form' onSubmit={handleButton} noValidate>
          <div className='search-form__content'>
             <input className='search-form__input'
                autoFocus
@@ -34,10 +30,12 @@ function SearchForm({ getMovies, searchMovies ,searchFilter }) {
                placeholder='Фильм'
                onChange={(e) => setSearch(e.target.value)}
                value={search}
+               disabled={disabled}
                required
             />
             <button className='search-form__button'
-               type='submit' onClick={handleButton}
+               disabled={disabled}
+               type='submit'
             />
          </div>
          <p className={`search-form__error ${activeClass}`}>Нужно ввести ключевое слово</p>

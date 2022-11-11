@@ -17,13 +17,11 @@ function MoviesCard({ movie, moviesSave, handleSaveMovie, handleDeleteMovie, han
    }, [isLiked])
 
    const toggleSaveMovie = () => {
-      if (like) {
+      if (isLiked) {
          handleDeleteMovie(...myMovies)
-         setLike(false);
       }
-      else {
+      else if (!isLiked) {
          handleSaveMovie(movie);
-         setLike(true);
       }
    }
 

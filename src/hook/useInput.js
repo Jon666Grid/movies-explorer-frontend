@@ -21,7 +21,7 @@ const useValidation = (value, validations) => {
                value.length > validations[validation] ? setMaxLength(true) : setMaxLength(false)
                break;
             case 'isEmail':
-               const res = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i
+               const res = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
                res.test(String(value).toLowerCase()) ? setEmail(false) : setEmail(true)
                break;
                case 'isName':

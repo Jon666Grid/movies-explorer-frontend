@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { moviesApi } from '../../utils/MoviesApi.js';
 import * as mainApi from '../../utils/MainApi.js';
@@ -40,8 +40,8 @@ function App() {
   const onRegister = (data) => {
     mainApi
       .register(data)
-      .then((res) => {
-        onLogin(data)
+      .then(() => {
+        onLogin(data);
       })
       .catch(err => {
         setMessage(`Что-то пошло не так! ${err}`)
@@ -55,6 +55,13 @@ function App() {
         setLoggedIn(true);
         localStorage.setItem('jwt', res.token);
         navigate('/movies');
+        mainApi
+          .getUserInfo(res.token)
+          .then((data) => {
+            setCurrentUser(data);
+          }).catch(err => {
+            console.log(err)
+          })
       })
       .catch(err => {
         setMessage(`Что-то пошло не так! ${err}`);
@@ -70,9 +77,11 @@ function App() {
     mainApi
       .getUserInfo(jwt)
       .then((data) => {
-        setLoggedIn(true);
-        setCurrentUser(data);
-        navigate(location.pathname);
+        if (data) {
+          setLoggedIn(true);
+          setCurrentUser(data);
+          navigate(location.pathname);
+        }
       })
       .catch(err => console.log(err));
   };
@@ -125,6 +134,10 @@ function App() {
 
   const handleSaveMovie = (data) => {
     const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      handleSignOut();
+      return;
+    }
     mainApi
       .createMovie(data, jwt)
       .then((res) => {
@@ -134,6 +147,10 @@ function App() {
 
   const handleDeleteMovie = (data) => {
     const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      handleSignOut();
+      return;
+    }
     mainApi
       .deleteMovie(data._id, jwt)
       .then(() => {
@@ -191,14 +208,14 @@ function App() {
                 signOut={handleSignOut} />}
           />
           <Route path='/signup'
-            element={
-              <Register
+            element={loggedIn ? <Navigate to='/' />
+              : <Register
                 onRegister={onRegister}
                 message={message} />}
           />
           <Route path='/signin'
-            element={
-              <Login
+            element={loggedIn ? <Navigate to='/' />
+              : <Login
                 onLogin={onLogin}
                 message={message} />}
           />

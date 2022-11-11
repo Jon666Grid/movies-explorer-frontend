@@ -28,11 +28,15 @@
    color: #FFF;
    line-height: 1.3em;
    text-decoration: none;
-   transition: .3s;
 }
 
-.navigation__link:hover {
-   opacity: .7;
+.navigation__link_selected {
+   font-weight: 400;
+   font-size: 13px;
+   color: #FFF;
+   line-height: 1.3em;
+   transition: .3s;
+   opacity: .8;
    text-decoration: underline;
 }
 
@@ -125,6 +129,10 @@
 
    .navigation__link {
       font-size: 18px;
+   }
+
+   .navigation__link_selected {
+      font-size: 18px
    }
 
    .navigation__active {

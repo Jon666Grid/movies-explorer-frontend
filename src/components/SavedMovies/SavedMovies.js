@@ -10,27 +10,28 @@ import { filter } from '../../utils/Utils.js'
 function SavedMovies({ loggedIn, getMyMovies, moviesSave, preloader, handleDeleteMovie }) {
 
    const navigate = useNavigate();
-   const [searchFilter, setSearchFilter] = useState(JSON.parse(localStorage.getItem('mySearch')) || '');
-   const [checkMovies, setCheckMovies] = useState(JSON.parse(localStorage.getItem('myChecked')) || false);
+   const [disabled, setDisabled] = useState(false);
+   const [searchFilter, setSearchFilter] = useState('');
+   const [checkMovies, setCheckMovies] = useState(false);
+   const [allMovies, setAllMovies] = useState([]);
 
    useEffect(() => {
-      if (!loggedIn) navigate('/');
-      getMyMovies();
-   }, [])
+      if (!loggedIn) navigate('/'); getMyMovies(); }, [])
 
-   const filtered = filter(moviesSave, searchFilter, checkMovies);
-   filtered.length > 0 &&
-      localStorage.setItem('mySave', JSON.stringify(filtered));
-   localStorage.setItem('myChecked', JSON.stringify(checkMovies));
-   localStorage.setItem('mySearch', JSON.stringify(searchFilter));
+   useEffect(() => {
+      setDisabled(true);
+      setAllMovies(filter(moviesSave, searchFilter, checkMovies))
+      setDisabled(false);
+   }, [moviesSave, searchFilter, checkMovies]);
 
-   const message = searchFilter.length > 0 & filtered.length === 0 ? true : false;
+   const message = searchFilter.length > 0 & allMovies.length === 0 ? true : false;
 
    return (
       <section className='saved-movies'>
          <SearchForm
             searchFilter={searchFilter}
             searchMovies={setSearchFilter}
+            disabled={disabled}
          />
          <FilterCheckbox
             check={setCheckMovies}
@@ -39,7 +40,7 @@ function SavedMovies({ loggedIn, getMyMovies, moviesSave, preloader, handleDelet
          {preloader && <Preloader />}
          {!preloader && <MoviesCardList
             handleMyDeleteMovie={handleDeleteMovie}
-            movies={filtered}
+            movies={allMovies}
             message={message}
          />}
       </section>
