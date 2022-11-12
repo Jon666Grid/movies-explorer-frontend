@@ -7,21 +7,23 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { filter } from '../../utils/Utils.js'
 
-function SavedMovies({ loggedIn, getMyMovies, moviesSave, preloader, handleDeleteMovie }) {
+function SavedMovies({ 
+   loggedIn, 
+   getMyMovies, 
+   moviesSave, 
+   preloader, 
+   handleDeleteMovie }) {
 
    const navigate = useNavigate();
-   const [disabled, setDisabled] = useState(false);
    const [searchFilter, setSearchFilter] = useState('');
    const [checkMovies, setCheckMovies] = useState(false);
    const [allMovies, setAllMovies] = useState([]);
+   console.log(moviesSave)
+
+   useEffect(() => {if (!loggedIn){ navigate('/') } getMyMovies();}, [])
 
    useEffect(() => {
-      if (!loggedIn) navigate('/'); getMyMovies(); }, [])
-
-   useEffect(() => {
-      setDisabled(true);
       setAllMovies(filter(moviesSave, searchFilter, checkMovies))
-      setDisabled(false);
    }, [moviesSave, searchFilter, checkMovies]);
 
    const message = searchFilter.length > 0 & allMovies.length === 0 ? true : false;
@@ -31,7 +33,7 @@ function SavedMovies({ loggedIn, getMyMovies, moviesSave, preloader, handleDelet
          <SearchForm
             searchFilter={searchFilter}
             searchMovies={setSearchFilter}
-            disabled={disabled}
+            disabled={preloader}
          />
          <FilterCheckbox
             check={setCheckMovies}

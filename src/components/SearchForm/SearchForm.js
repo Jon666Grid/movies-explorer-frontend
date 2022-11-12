@@ -30,12 +30,12 @@ function SearchForm({ disabled, searchMovies, searchFilter }) {
                placeholder='Фильм'
                onChange={(e) => setSearch(e.target.value)}
                value={search}
-               disabled={disabled}
                required
+               disabled={disabled}
             />
             <button className='search-form__button'
-               disabled={disabled}
                type='submit'
+               disabled={disabled}
             />
          </div>
          <p className={`search-form__error ${activeClass}`}>Нужно ввести ключевое слово</p>

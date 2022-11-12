@@ -1,19 +1,19 @@
 import './Register.css';
 import { Link } from 'react-router-dom';
-import { useInput, messageError } from '../../hook/useInput.js'
+import { useInput, messageError } from '../../hook/useInput.js';
 import logo from '../../images/logo.svg';
 
-function Register(props) {
+function Register({ disabled, onRegister, message}) {
 
    const name = useInput('', { isEmpty: true, minLength: 2, isName: true });
    const email = useInput('', { isEmpty: true, minLength: 3, maxLength: 30, isEmail: true });
    const password = useInput('', { isEmpty: true, minLength: 5, maxLength: 30, });
 
-   const disabledButton = !name.inputValid || !email.inputValid || !password.inputValid;
+   const disabledButton = !name.inputValid || !email.inputValid || !password.inputValid || disabled;
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      props.onRegister({
+      onRegister({
          name: name.value,
          email: email.value,
          password: password.value
@@ -38,6 +38,7 @@ function Register(props) {
                      value={name.value}
                      onChange={(e) => name.onChange(e)}
                      onBlur={(e) => name.onBlur(e)}
+                     disabled={disabled}
                      required
                   />
                   <p className='register__error'>{messageError(name)}</p>
@@ -51,6 +52,7 @@ function Register(props) {
                      value={email.value}
                      onChange={(e) => email.onChange(e)}
                      onBlur={(e) => email.onBlur(e)}
+                     disabled={disabled}
                      required
                   />
                   <p className="register__error">{messageError(email)}</p>
@@ -64,12 +66,13 @@ function Register(props) {
                      value={password.value}
                      onChange={(e) => password.onChange(e)}
                      onBlur={(e) => password.onBlur(e)}
+                     disabled={disabled}
                      required
                   />
                   <p className='register__error'>{messageError(password)}</p>
                </label>
             </div>
-            <p className="register__message">{props.message}</p>
+            <p className="register__message">{message}</p>
             <button type='submit'
                className={`register__button  ${disabledButton && 'register__button_disabled'}`}
                disabled={disabledButton}

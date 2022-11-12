@@ -22,6 +22,7 @@ function App() {
   const [moviesSave, setMoviesSave] = useState([]);
   const [preloader, setPreloader] = useState(false);
   const [errorInfo, setErrorInfo] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -38,17 +39,21 @@ function App() {
   }, [location]);
 
   const onRegister = (data) => {
+    setDisabled(true);
     mainApi
       .register(data)
       .then(() => {
         onLogin(data);
+        setDisabled(false);
       })
       .catch(err => {
         setMessage(`Что-то пошло не так! ${err}`)
+        setDisabled(false);
       })
   };
 
   const onLogin = (data) => {
+    setDisabled(true);
     mainApi
       .login(data)
       .then((res) => {
@@ -62,9 +67,11 @@ function App() {
           }).catch(err => {
             console.log(err)
           })
+          setDisabled(false);
       })
       .catch(err => {
         setMessage(`Что-то пошло не так! ${err}`);
+        setDisabled(false);
         setLoggedIn(false);
       })
   };
@@ -89,19 +96,27 @@ function App() {
   const handleUpdateUser = (data) => {
     const jwt = localStorage.getItem('jwt');
     setLoggedIn(true);
+    setDisabled(true);
     mainApi
       .updateUser(data, jwt).then((newUser) => {
         setCurrentUser(newUser);
         setMessage('Профиль успешно редактирован!')
+        setDisabled(false);
       })
       .catch(err => {
         setMessage('Что-то пошло не так')
+        setDisabled(false);
         setLoggedIn(false);
         console.log(err)
       })
   };
 
   const getMovies = () => {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      handleSignOut();
+      return;
+    }
     setPreloader(true);
     setMovies([]);
     moviesApi()
@@ -119,8 +134,12 @@ function App() {
   };
 
   const getMyMovies = () => {
-    setPreloader(true);
     const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      handleSignOut();
+      return;
+    }
+    setPreloader(true);
     mainApi.getMovies(jwt)
       .then((data) => {
         setMoviesSave(data)
@@ -205,19 +224,22 @@ function App() {
               <Profile
                 handleUpdateUser={handleUpdateUser}
                 message={message}
-                signOut={handleSignOut} />}
+                signOut={handleSignOut}
+                disabled={disabled} />}
           />
           <Route path='/signup'
             element={loggedIn ? <Navigate to='/' />
               : <Register
                 onRegister={onRegister}
-                message={message} />}
+                message={message}
+                disabled={disabled} />}
           />
           <Route path='/signin'
             element={loggedIn ? <Navigate to='/' />
               : <Login
                 onLogin={onLogin}
-                message={message} />}
+                message={message}
+                disabled={disabled} />}
           />
           <Route path='*'
             element={<PageNotFound />}

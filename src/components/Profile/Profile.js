@@ -4,17 +4,17 @@ import { useInput, messageError } from '../../hook/useInput.js'
 import './Profile.css';
 
 
-function Profile(props) {
+function Profile({ disabled, handleUpdateUser, message, signOut}) {
 
    const user = useContext(CurrentUserContext);
-   const name = useInput('', { isEmpty: true, minLength: 2, isName: true });
-   const email = useInput('', { isEmpty: true, minLength: 3, maxLength: 30, isEmail: true });
+   const name = useInput(user.name || '', { isEmpty: true, minLength: 2, isName: true });
+   const email = useInput(user.email || '', { isEmpty: true, minLength: 3, maxLength: 30, isEmail: true });
 
-   const disabledButton = (user.email === email.value && user.name === name.value) || !email.inputValid || !name.inputValid;
+   const disabledButton = (user.email === email.value && user.name === name.value) || !email.inputValid || !name.inputValid || disabled;
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      props.handleUpdateUser({
+      handleUpdateUser({
          name: name.value,
          email: email.value
       });
@@ -32,7 +32,8 @@ function Profile(props) {
                      value={name.value}
                      onChange={(e) => name.onChange(e)}
                      onBlur={(e) => name.onBlur(e)}
-                     type='name' />
+                     type='name'
+                     disabled={disabled} />
                </div>
                <p className='profile__error'>{messageError(name)}</p>
             </label>
@@ -43,18 +44,19 @@ function Profile(props) {
                      value={email.value}
                      onChange={(e) => email.onChange(e)}
                      onBlur={(e) => email.onBlur(e)}
-                     type='email' />
+                     type='email'
+                     disabled={disabled} />
                </div>
                <p className="profile__error">{messageError(email)}</p>
             </label>
             <div className='profile__container-action'>
-               <p className="profile__message">{props.message}</p>
+               <p className="profile__message">{message}</p>
                <button className={`profile__button-edit  ${disabledButton && 'profile__button-edit_disabled'}`} type='submit'
                   disabled={disabledButton}>
                   Редактировать</button>
-               <button className='profile__button-exit' 
-               type='button'
-               onClick={() => props.signOut()}
+               <button className='profile__button-exit'
+                  type='button'
+                  onClick={() => signOut()}
                >
                   Выйти из аккаунта
                </button>

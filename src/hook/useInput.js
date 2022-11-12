@@ -35,12 +35,12 @@ const useValidation = (value, validations) => {
    }, [value, validations])
 
    useEffect(() => {
-      if (isEmpty || minLength || maxLength || isEmail) {
+      if (isEmpty || minLength || maxLength || isEmail || isName) {
          setInputValid(false)
       } else {
          setInputValid(true)
       }
-   }, [isEmpty, minLength, maxLength, isEmail])
+   }, [isEmpty, minLength, maxLength, isEmail, isName])
 
    return {
       isEmpty,
@@ -75,7 +75,7 @@ export const useInput = (initialValue, validations) => {
 }
 
 export const messageError = (item) => {
-   if ((item).isDirty && (item).isEmpty) return 'Поле не может быть пустым';
+   if ((item).isDirty && (item).isEmpty) return 'Обязательное поле для заполнения';
    if ((item).isDirty && (item).minLength) return 'Некорректная длина';
    if ((item).isDirty && (item).maxLength) return 'Некорректная длина';
    if ((item).isDirty && (item).isName) return 'Некорректное Имя';

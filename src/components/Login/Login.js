@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import { useInput, messageError } from '../../hook/useInput.js'
 import logo from '../../images/logo.svg';
 
-function Login(props) {
+function Login({ disabled, onLogin, message }) {
 
    const email = useInput('', { isEmpty: true, minLength: 3, maxLength: 30, isEmail: true });
    const password = useInput('', { isEmpty: true, minLength: 5, maxLength: 30, });
 
-   const disabledButton = !email.inputValid || !password.inputValid;
+   const disabledButton = !email.inputValid || !password.inputValid || disabled;
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      props.onLogin({
+      onLogin({
          email: email.value,
          password: password.value
       });
@@ -36,7 +36,8 @@ function Login(props) {
                   value={email.value}
                   onChange={(e) => email.onChange(e)}
                   onBlur={(e) => email.onBlur(e)}
-                  required />
+                  required 
+                  disabled={disabled} />
                <p className="login__error">{messageError(email)}</p>
             </label>
             <label className='login__item'>
@@ -48,11 +49,12 @@ function Login(props) {
                   value={password.value}
                   onChange={(e) => password.onChange(e)}
                   onBlur={(e) => password.onBlur(e)}
-                  required />
+                  required 
+                  disabled={disabled} />
                <p className='login__error'>{messageError(password)}</p>
             </label>
             </div>
-            <p className="login__message">{props.message}</p>
+            <p className="login__message">{message}</p>
             <button type='submit'
                className={`login__button  ${disabledButton && 'login__button_disabled'}`}
                disabled={disabledButton}
