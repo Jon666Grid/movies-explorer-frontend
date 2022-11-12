@@ -5,7 +5,6 @@
 Movies Explorer - это cервис, в котором можно найти фильмы по запросу и сохранить в личном кабинете.
 ````
 * Сыслка на фронтенд-часть приложения : [click](https://web.movies.nomoredomains.icu/)
-* Cсылка на пул реквест : [click](https://github.com/Jon666Grid/movies-explorer-frontend/pull/2)
 * Ссылка на макет проекта : [cliсk](https://disk.yandex.ru/d/iWrmAWVeJHIjsA)
 
 ### Функционал:
